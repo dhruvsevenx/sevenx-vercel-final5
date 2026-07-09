@@ -1,9 +1,13 @@
-# Files/folders that should NOT be uploaded to Vercel builds
+# Files/folders excluded from Vercel builds.
+#
+# NOTE: The `api/` folder is NOT ignored — it contains the Python
+# Serverless Function that Vercel auto-detects and deploys.
 
-# Backend (unused on Vercel — kept in repo for future use)
+# Original backend (kept in repo for local dev, but NOT deployed on Vercel).
+# The Vercel API lives in /api/index.py which is self-contained.
 backend/
 
-# Tests, reports, memory (dev-only artefacts)
+# Dev-only
 tests/
 test_reports/
 memory/

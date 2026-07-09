@@ -2,12 +2,14 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "cd frontend && yarn install --frozen-lockfile=false && yarn build",
   "outputDirectory": "frontend/build",
-  "installCommand": "echo 'Skipping root install — handled in buildCommand'",
+  "installCommand": "echo 'Root install skipped — handled in buildCommand'",
   "framework": null,
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/api",       "destination": "/api" },
+    { "source": "/api/(.*)",  "destination": "/api" },
+    { "source": "/(.*)",      "destination": "/index.html" }
   ],
   "headers": [
     {
