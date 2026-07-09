@@ -1,0 +1,35 @@
+# Files/folders that should NOT be uploaded to Vercel builds
+
+# Backend (unused on Vercel — kept in repo for future use)
+backend/
+
+# Tests, reports, memory (dev-only artefacts)
+tests/
+test_reports/
+memory/
+test_result.md
+
+# Local env files (Vercel uses its own env-var UI)
+**/.env
+**/.env.local
+**/.env.*
+
+# Node & build artefacts
+node_modules/
+**/node_modules/
+frontend/build/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Emergent-only
+.emergent/
+plugins/health-check/
