@@ -101,3 +101,129 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: |
+  Make the SevenX Media landing page repo (sevenxnew) fully compatible for
+  deployment on Vercel using Vercel's new multi-service (Vercel Services)
+  feature. Frontend = React CRA (yarn). Backend = FastAPI. During Vercel
+  build, npm install failed with ERESOLVE because npm doesn't respect yarn's
+  `resolutions` block and enforces strict peer-dep checks (date-fns@4 vs
+  react-day-picker@8 needs date-fns@^2||^3).
+
+backend:
+  - task: "FastAPI backend (backend/server.py) — Vercel-compatible with lazy Mongo"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: |
+          Rewrote backend/server.py to be Vercel-compatible. Key changes:
+          - Lazy Mongo init (does not crash when MONGO_URL is missing)
+          - /api/       -> 200 greeting with mongo_enabled flag
+          - /api/health -> 200 health check
+          - /api/status GET/POST  -> 503 gracefully when Mongo not set
+          - /api/docs   -> Swagger UI
+          Ran locally via supervisor (uvicorn) and curl /api/ returned 200.
+          Slimmed backend/requirements.txt to only what server.py imports.
+          Please verify all four routes respond correctly at
+          http://localhost:8001/api/*.
+      - working: true
+        agent: "testing"
+        comment: |
+          ✅ ALL BACKEND TESTS PASSED (5/5)
+          Created comprehensive test suite in /app/backend_test.py
+          
+          Test Results:
+          1. GET /api/ → ✅ 200 OK
+             - Correct JSON: {"message": "Hello from SevenX API", "mongo_enabled": false}
+             - CORS headers present (access-control-allow-origin: *)
+          
+          2. GET /api/health → ✅ 200 OK
+             - Correct JSON: {"status": "ok", "mongo_enabled": false, "timestamp": "..."}
+             - Valid ISO timestamp format
+             - CORS headers present
+          
+          3. GET /api/docs → ✅ 200 OK
+             - Swagger UI HTML returned correctly
+             - Content-Type: text/html
+          
+          4. POST /api/status with {"client_name": "test-ci"} → ✅ 503 Service Unavailable
+             - Correct error: "MongoDB is not configured. Set MONGO_URL in Vercel env vars."
+             - Expected behavior without MONGO_URL
+             - CORS headers present
+          
+          5. GET /api/status → ✅ 503 Service Unavailable
+             - Same MongoDB error as POST (expected)
+             - CORS headers present
+          
+          Backend is production-ready. Lazy MongoDB initialization works perfectly.
+          No crashes, all routes reachable, JSON shapes correct, CORS configured properly.
+
+frontend:
+  - task: "npm install compatibility fix for Vercel (.npmrc)"
+    implemented: true
+    working: "NA"
+    file: "frontend/.npmrc"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: |
+          Added frontend/.npmrc with legacy-peer-deps=true to fix Vercel
+          build failure (npm ERESOLVE on date-fns@4 vs react-day-picker@8).
+          `npm install --dry-run` in /tmp with these files resolves 1495
+          packages cleanly. Need to confirm the running frontend still loads
+          (via existing supervisor yarn-start) without any regression.
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 2
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "FastAPI backend (backend/server.py) — Vercel-compatible with lazy Mongo"
+    - "npm install compatibility fix for Vercel (.npmrc)"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: |
+      Restructured for Vercel Services (new multi-service vercel.json).
+      Deleted old /api/ folder, moved to /backend/server.py with lazy Mongo.
+      Added frontend/.npmrc to fix npm ERESOLVE peer-dep conflict.
+      Please smoke-test:
+        1. Backend: GET /api/, GET /api/health, POST /api/status (expect
+           503 without MONGO_URL), GET /api/docs — all served via the
+           existing supervisor uvicorn on port 8001.
+        2. Confirm the frontend (React) still renders normally (supervisor
+           runs it via yarn) — the .npmrc only affects npm and shouldn't
+           impact yarn-based dev.
+      Do NOT test Vercel deployment itself — that has to be verified in
+      Vercel dashboard after the user pushes to GitHub.
+  - agent: "testing"
+    message: |
+      ✅ Backend testing complete - ALL TESTS PASSED (5/5)
+      
+      Tested all endpoints as requested:
+      - GET /api/ → 200 with correct JSON and CORS
+      - GET /api/health → 200 with correct JSON and CORS
+      - GET /api/docs → 200 Swagger UI
+      - POST /api/status → 503 (expected without MongoDB)
+      - GET /api/status → 503 (expected without MongoDB)
+      
+      Backend is Vercel-ready with proper lazy MongoDB initialization.
+      No crashes, graceful degradation when MONGO_URL missing.
+      
+      Note: Did NOT test frontend as per instructions (only backend testing).
+      Frontend task marked as needs_retesting but was not tested by me.
