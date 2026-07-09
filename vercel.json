@@ -3,7 +3,9 @@
   "services": {
     "frontend": {
       "root": "frontend",
-      "framework": "create-react-app"
+      "framework": "create-react-app",
+      "installCommand": "yarn install",
+      "buildCommand": "yarn build"
     },
     "backend": {
       "root": "backend",

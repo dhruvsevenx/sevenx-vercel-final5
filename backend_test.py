@@ -121,7 +121,7 @@ def test_post_status_without_mongo():
     print("="*70)
     
     try:
-        payload = {"client_name": "test-ci"}
+        payload = {"client_name": "regression-test"}
         # Include Origin header to trigger CORS
         headers = {
             "Content-Type": "application/json",

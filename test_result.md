@@ -163,8 +163,47 @@ backend:
           
           Backend is production-ready. Lazy MongoDB initialization works perfectly.
           No crashes, all routes reachable, JSON shapes correct, CORS configured properly.
+      - working: true
+        agent: "testing"
+        comment: |
+          ✅ REGRESSION TEST PASSED - NO REGRESSION from vercel.json change
+          
+          Re-tested all 5 endpoints after vercel.json modification (2026-07-09):
+          1. GET /api/ → 200 OK, correct JSON, CORS present
+          2. GET /api/health → 200 OK, correct JSON with valid timestamp, CORS present
+          3. GET /api/docs → 200 OK, Swagger UI HTML (946 bytes)
+          4. POST /api/status {"client_name":"regression-test"} → 503 (expected MongoDB error, CORS present)
+          5. GET /api/status → 503 (expected MongoDB error, CORS present)
+          
+          Confirmed: vercel.json change (installCommand/buildCommand for frontend service)
+          did NOT affect backend runtime behavior. Backend remains production-ready.
 
 frontend:
+  - task: "Vercel Services vercel.json — force yarn to avoid npm ajv conflicts"
+    implemented: true
+    working: "NA"
+    file: "vercel.json"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: |
+          Second Vercel build failure was: "Cannot find module
+          'ajv/dist/compile/codegen'". Root cause: Vercel Services runs npm
+          by default; npm's flat hoisting can't handle react-scripts@5's
+          dep tree which has both ajv@6 and ajv@8 consumers. Yarn resolves
+          this correctly via nested node_modules + resolutions block.
+
+          Fix: added installCommand=yarn install and buildCommand=yarn build
+          INSIDE the frontend service block of vercel.json (Vercel Services
+          requires build settings per-service, not top-level).
+
+          Verified locally: `yarn build` completes successfully in 42s,
+          produces frontend/build/ with 110 KB gzipped JS. Backend
+          (supervisor uvicorn) still runs and responds on port 8001.
+
   - task: "npm install compatibility fix for Vercel (.npmrc)"
     implemented: true
     working: "NA"
@@ -185,7 +224,7 @@ frontend:
 metadata:
   created_by: "main_agent"
   version: "1.0"
-  test_sequence: 2
+  test_sequence: 3
   run_ui: false
 
 test_plan:
@@ -199,18 +238,27 @@ test_plan:
 agent_communication:
   - agent: "main"
     message: |
-      Restructured for Vercel Services (new multi-service vercel.json).
-      Deleted old /api/ folder, moved to /backend/server.py with lazy Mongo.
-      Added frontend/.npmrc to fix npm ERESOLVE peer-dep conflict.
-      Please smoke-test:
-        1. Backend: GET /api/, GET /api/health, POST /api/status (expect
-           503 without MONGO_URL), GET /api/docs — all served via the
-           existing supervisor uvicorn on port 8001.
-        2. Confirm the frontend (React) still renders normally (supervisor
-           runs it via yarn) — the .npmrc only affects npm and shouldn't
-           impact yarn-based dev.
-      Do NOT test Vercel deployment itself — that has to be verified in
-      Vercel dashboard after the user pushes to GitHub.
+      SECOND Vercel build failure fix. First fix (.npmrc legacy-peer-deps)
+      got past ERESOLVE, but then hit "Cannot find module
+      'ajv/dist/compile/codegen'" — an unfixable npm hoisting issue with
+      react-scripts@5.
+
+      New fix: switched vercel.json to force yarn install per-service
+      (installCommand + buildCommand inside frontend service block).
+      Yarn.lock in frontend/ is already present and yarn resolves the
+      dep tree correctly via the existing "resolutions" field.
+
+      Please smoke-test AGAIN (locally, not on Vercel):
+        1. Backend endpoints still respond correctly at
+           http://localhost:8001/api/, /api/health, /api/status, /api/docs
+        2. Backend didn't regress from any of the config changes.
+
+      I have already verified locally that `yarn build` succeeds in the
+      frontend/ directory. The vercel.json change only affects Vercel
+      builds — no runtime code was modified.
+
+      Do NOT test Vercel deployment itself — verified only after the user
+      pushes to GitHub and Vercel retries the deploy.
   - agent: "testing"
     message: |
       ✅ Backend testing complete - ALL TESTS PASSED (5/5)
@@ -227,3 +275,27 @@ agent_communication:
       
       Note: Did NOT test frontend as per instructions (only backend testing).
       Frontend task marked as needs_retesting but was not tested by me.
+  - agent: "user"
+    message: |
+      Please re-test the FastAPI backend at http://localhost:8001 to confirm 
+      no regression from the vercel.json change. Background: I only modified 
+      /app/vercel.json (a build-config file that only affects Vercel 
+      deployments — not local code). No backend runtime code was changed. 
+      This is a paranoid regression check.
+  - agent: "testing"
+    message: |
+      ✅ REGRESSION TEST COMPLETE - NO REGRESSION DETECTED (5/5 tests passed)
+      
+      Verified all 5 endpoints after vercel.json modification:
+      1. GET /api/ → ✅ 200 OK (JSON correct, CORS present)
+      2. GET /api/health → ✅ 200 OK (JSON correct, timestamp valid, CORS present)
+      3. GET /api/docs → ✅ 200 OK (Swagger UI HTML, 946 bytes)
+      4. POST /api/status {"client_name":"regression-test"} → ✅ 503 (expected MongoDB error, CORS present)
+      5. GET /api/status → ✅ 503 (expected MongoDB error, CORS present)
+      
+      All CORS headers present (access-control-allow-origin: *).
+      Backend behavior unchanged by vercel.json modification.
+      The vercel.json change (installCommand/buildCommand for frontend) 
+      only affects Vercel build process, not runtime code.
+      
+      Backend remains production-ready for Vercel deployment.
