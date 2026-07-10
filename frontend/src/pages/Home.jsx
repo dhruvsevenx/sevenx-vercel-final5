@@ -22,7 +22,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#050505] text-[#E3E8EC] bg-noise overflow-hidden">
+    <div className="relative min-h-screen bg-[#050B1F] text-[#E6EDFF] bg-noise overflow-hidden">
       {!loaded && <Preloader />}
       <Navbar />
       <main className={loaded ? "opacity-100 transition-opacity duration-700" : "opacity-0"}>
@@ -30,9 +30,9 @@ export default function Home() {
         <BigWordmark />
         <Stats />
         <Services />
+        <Verticals />
         <CaseStudies />
         <Partners />
-        <Verticals />
         <Testimonials />
         <WhyChoose />
         <Contact />

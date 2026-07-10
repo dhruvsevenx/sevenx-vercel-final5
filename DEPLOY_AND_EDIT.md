@@ -32,11 +32,12 @@ The React Router SPA fallback is handled by the `frontend` service (Create React
 4. **Framework preset**: make sure the project-level preset is set to **Services** (Vercel does this automatically when a `services` block is present in `vercel.json`).
 5. *(Optional now, needed later for DB endpoints)* Add environment variables under **Settings → Environment Variables**:
 
-   | Name           | Example value                                                        | Applied to |
-   | -------------- | -------------------------------------------------------------------- | ---------- |
-   | `MONGO_URL`    | `mongodb+srv://user:pass@cluster.xyz.mongodb.net/?retryWrites=true`  | `backend`  |
-   | `DB_NAME`      | `sevenx`                                                             | `backend`  |
-   | `CORS_ORIGINS` | `https://yourdomain.com,https://sevenxnew.vercel.app`                | `backend`  |
+   | Name                        | Example value                                                        | Applied to |
+   | --------------------------- | -------------------------------------------------------------------- | ---------- |
+   | `MONGO_URL`                 | `mongodb+srv://user:pass@cluster.xyz.mongodb.net/?retryWrites=true`  | `backend`  |
+   | `DB_NAME`                   | `sevenx`                                                             | `backend`  |
+   | `CORS_ORIGINS`              | `https://yourdomain.com,https://sevenxnew.vercel.app`                | `backend`  |
+   | `REACT_APP_SHEETS_ENDPOINT` | `https://script.google.com/macros/s/XXXX/exec` (see `GOOGLE_SHEETS_SETUP.md`) | `frontend` |
 
 6. Click **Deploy**. First build takes ~2–4 minutes.
 7. Verify the endpoints:
@@ -123,8 +124,10 @@ All frontend content lives in **`frontend/src/`**:
 | Footer (links, copyright) | `frontend/src/components/Footer.jsx` |
 | Preloader animation | `frontend/src/components/Preloader.jsx` |
 | **Colors, theme, spacing** | `frontend/tailwind.config.js` |
-| Global CSS + custom classes (`bg-noise`, `radial-red`) | `frontend/src/App.css` and `frontend/src/index.css` |
-| Page `<title>`, favicon, meta tags | `frontend/public/index.html` |
+| Global CSS + custom classes (`bg-noise`, `radial-blue`, `holo-*`) | `frontend/src/App.css` and `frontend/src/index.css` |
+| Page `<title>`, favicon, meta tags, **SEO schema (JSON-LD)**, **Google Analytics** | `frontend/public/index.html` |
+| Sitemap / robots for search engines | `frontend/public/sitemap.xml`, `frontend/public/robots.txt` |
+| **Contact form → Google Sheets** setup (Apps Script) | `GOOGLE_SHEETS_SETUP.md` (repo root) |
 | **API endpoints** | `backend/server.py` |
 
 ### Changing the accent red
