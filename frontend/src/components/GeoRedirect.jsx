@@ -110,7 +110,7 @@ export default function GeoRedirect() {
       .catch(() => { /* network fail → stay on India */ });
 
     return () => { clearTimeout(t); ac.abort(); };
-  }, []);
+  }, [location.pathname, location.search, navigate]);
 
   return null;
 }
