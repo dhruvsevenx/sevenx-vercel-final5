@@ -15,7 +15,7 @@ const services = [
 ];
 
 // Configure in /app/frontend/.env  →  REACT_APP_SHEETS_ENDPOINT=https://script.google.com/macros/s/XXXX/exec
-const SHEETS_ENDPOINT = process.env.REACT_APP_SHEETS_ENDPOINT || "";
+const SHEETS_ENDPOINT = process.env.REACT_APP_SHEETS_ENDPOINT || "https://script.google.com/macros/s/AKfycbyqPCm4GSOUHqNvepSOVyvMJFxkQkX6EDqYM_TzwJ9qif90umxGRTuPIuvhxnBadhVn-w/exec";
 
 export default function Contact() {
   const { region } = useContent();
