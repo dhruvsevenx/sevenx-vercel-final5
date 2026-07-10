@@ -1,7 +1,8 @@
 import React from "react";
-import { whyChoose } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 
 export default function WhyChoose() {
+  const { whyChoose } = useContent();
   return (
     <section className="relative px-6 md:px-10 py-20 md:py-32 border-t border-[#0F1B36]">
       <div className="flex items-end justify-between mb-14 gap-6 flex-wrap">

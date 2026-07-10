@@ -1,7 +1,8 @@
 import React from "react";
-import { verticals } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 
 export default function Verticals() {
+  const { verticals, region } = useContent();
   return (
     <section id="verticals" className="relative px-6 md:px-10 py-20 md:py-28 border-t border-[#0F1B36]">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
@@ -10,12 +11,22 @@ export default function Verticals() {
             <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_003</span> VERTICALS_WE_COVER
           </div>
           <h3 className="font-display text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF] mb-6">
-            EVERY <span className="text-[#00A3FF]">STATE.</span><br />
-            EVERY <span className="text-[#00A3FF]">VERTICAL.</span>
+            {region === "global" ? (
+              <>
+                EVERY <span className="text-[#00A3FF]">MARKET.</span><br />
+                EVERY <span className="text-[#00A3FF]">LICENSE.</span>
+              </>
+            ) : (
+              <>
+                EVERY <span className="text-[#00A3FF]">STATE.</span><br />
+                EVERY <span className="text-[#00A3FF]">VERTICAL.</span>
+              </>
+            )}
           </h3>
           <p className="font-mono text-[12px] text-[#9BB0D6] leading-[1.8] uppercase max-w-md">
-            Compliant, India-first lead generation across regulated categories. Every campaign audited
-            against ASCI, SEBI, IRDAI, RBI, Ayush, FSSAI and the DPDP Act 2023.
+            {region === "global"
+              ? "Only inside jurisdictions where operator licenses exist. Every creative cleared against the local advertising code — MGA, UKGC, KGC, Curacao, Ontario iGO, Coljuegos, SPA."
+              : "Compliant, India-first lead generation across regulated categories. Every campaign audited against ASCI, SEBI, IRDAI, RBI, Ayush, FSSAI and the DPDP Act 2023."}
           </p>
         </div>
 

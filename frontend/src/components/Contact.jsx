@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ArrowUpRight, Check, Loader2 } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
+import { useContent } from "../context/ContentContext";
 
 const services = [
   "PERFORMANCE MARKETING",
@@ -17,6 +18,7 @@ const services = [
 const SHEETS_ENDPOINT = process.env.REACT_APP_SHEETS_ENDPOINT || "";
 
 export default function Contact() {
+  const { region } = useContent();
   const [form, setForm] = useState({
     name: "",
     company: "",
@@ -40,6 +42,7 @@ export default function Contact() {
     setLoading(true);
     const payload = {
       ...form,
+      region: region || "india",
       timestamp: new Date().toISOString(),
       page: typeof window !== "undefined" ? window.location.href : "",
       referrer: typeof document !== "undefined" ? document.referrer : "",
@@ -100,9 +103,19 @@ export default function Contact() {
             <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_001</span> WORK_WITH_US
           </div>
           <h3 className="font-display text-5xl md:text-7xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
-            READY TO<br />
-            LAUNCH IN<br />
-            <span className="gradient-text">INDIA?</span>
+            {region === "global" ? (
+              <>
+                READY TO<br />
+                LAUNCH IN<br />
+                <span className="gradient-text">LICENSED MARKETS?</span>
+              </>
+            ) : (
+              <>
+                READY TO<br />
+                LAUNCH IN<br />
+                <span className="gradient-text">INDIA?</span>
+              </>
+            )}
           </h3>
           <p className="font-mono text-[12px] text-[#9BB0D6] leading-[1.8] uppercase mt-8 max-w-md">
             <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_002</span>
@@ -114,10 +127,10 @@ export default function Contact() {
               <span className="text-[#00A3FF]">■</span> INFO@SEVENXMEDIA.IN
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-[#00A3FF]">■</span> NEW DELHI · MUMBAI · BENGALURU
+              <span className="text-[#00A3FF]">■</span> {region === "global" ? "MALTA \u00b7 CURA\u00c7AO \u00b7 DUBAI" : "NEW DELHI \u00b7 MUMBAI \u00b7 BENGALURU"}
             </div>
             <div className="flex items-center gap-3">
-              <span className="text-[#00A3FF]">■</span> 28&deg;36&apos;48.99&quot;N / 77&deg;13&apos;19.99&quot;E
+              <span className="text-[#00A3FF]">■</span> {region === "global" ? "35\u00b053\u2032N / 14\u00b030\u2032E" : "28\u00b036\u203248.99\u2033N / 77\u00b013\u203219.99\u2033E"}
             </div>
           </div>
         </div>
@@ -128,7 +141,7 @@ export default function Contact() {
               <Field label="NAME" idx="NO_001" value={form.name} onChange={upd("name")} required testId="input-name" />
               <Field label="COMPANY" idx="NO_002" value={form.company} onChange={upd("company")} testId="input-company" />
               <Field label="EMAIL" idx="NO_003" type="email" value={form.email} onChange={upd("email")} required testId="input-email" />
-              <Field label="PHONE / WHATSAPP" idx="NO_004" value={form.phone} onChange={upd("phone")} placeholder="+91 ..." testId="input-phone" />
+              <Field label="PHONE / WHATSAPP" idx="NO_004" value={form.phone} onChange={upd("phone")} placeholder={region === "global" ? "+ country code ..." : "+91 ..."} testId="input-phone" />
               <div className="md:col-span-2">
                 <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-2">
                   <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_005</span> VERTICAL
@@ -152,12 +165,12 @@ export default function Contact() {
                 </div>
               </div>
               <Field
-                label="MONTHLY BUDGET (INR)"
+                label={region === "global" ? "MONTHLY BUDGET (USD)" : "MONTHLY BUDGET (INR)"}
                 idx="NO_006"
                 value={form.budget}
                 onChange={upd("budget")}
                 className="md:col-span-2"
-                placeholder="e.g. Rs 5L - Rs 25L"
+                placeholder={region === "global" ? "e.g. $25K - $250K" : "e.g. Rs 5L - Rs 25L"}
                 testId="input-budget"
               />
               <div className="md:col-span-2">
@@ -170,7 +183,9 @@ export default function Contact() {
                   rows={4}
                   required
                   data-testid="input-message"
-                  placeholder="Tell us about your product, target states, languages and KPIs..."
+                  placeholder={region === "global"
+                    ? "Tell us about your product, licensed jurisdictions, languages and KPIs..."
+                    : "Tell us about your product, target states, languages and KPIs..."}
                   className="w-full bg-transparent border border-[#1B2A4A] focus:border-[#00A3FF] outline-none px-4 py-3 font-mono text-sm text-[#E6EDFF] placeholder:text-[#3A517A] transition-colors"
                 />
               </div>

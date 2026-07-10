@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { testimonials } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Testimonials() {
+  const { testimonials } = useContent();
   const [i, setI] = useState(0);
   const t = testimonials[i];
 

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { caseStudies } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 import { Plus } from "lucide-react";
 
 export default function CaseStudies() {
+  const { caseStudies } = useContent();
   const [open, setOpen] = useState(0);
 
   return (

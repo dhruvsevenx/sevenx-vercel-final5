@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { services } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 import { Handshake, TrendingUp, BarChart3, Rocket, Zap, Bot, Globe, ArrowUpRight } from "lucide-react";
 
 const iconMap = { Handshake, TrendingUp, BarChart3, Rocket, Zap, Bot, Globe };
 
 export default function Services() {
+  const { services } = useContent();
   const [hover, setHover] = useState(null);
 
   return (

@@ -1,5 +1,5 @@
 import React from "react";
-import { stats } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 
 function StatCard({ s, idx }) {
   return (
@@ -25,6 +25,7 @@ function StatCard({ s, idx }) {
 }
 
 export default function Stats() {
+  const { stats } = useContent();
   return (
     <section className="relative px-6 md:px-10 py-20 md:py-28 border-t border-[#0F1B36]">
       <div className="flex items-start justify-between mb-10 gap-6 flex-wrap">

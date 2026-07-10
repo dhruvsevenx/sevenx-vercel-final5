@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { heroTags, coordinates } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 import { ArrowDown } from "lucide-react";
 
 /**
@@ -43,6 +43,7 @@ function Hologram() {
 }
 
 export default function Hero() {
+  const { heroTags, coordinates, region } = useContent();
   const [tick, setTick] = useState(0);
   useEffect(() => {
     const i = setInterval(() => setTick((t) => t + 1), 1500);
@@ -64,7 +65,7 @@ export default function Hero() {
           {coordinates.lng}
         </div>
         <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest">
-          <span className="animate-blink">■</span> // SEVENX_INDIA_LIVE
+          <span className="animate-blink">■</span> // {region === "global" ? "SEVENX_GLOBAL_LIVE" : "SEVENX_INDIA_LIVE"}
         </div>
       </div>
 
@@ -95,15 +96,31 @@ export default function Hero() {
             <span className="block">MARKETING</span>
             <span className="block bg-[#0057FF] text-white px-3 md:px-6 leading-[1] pt-2">FOR</span>
           </div>
-          <span className="block">
-            HIGH-INTENT <span className="gradient-text">INDIA.</span>
-          </span>
+          {region === "global" ? (
+            <span className="block">
+              LICENSED <span className="gradient-text">MARKETS.</span>
+            </span>
+          ) : (
+            <span className="block">
+              HIGH-INTENT <span className="gradient-text">INDIA.</span>
+            </span>
+          )}
         </h1>
 
         <p className="mt-6 max-w-3xl font-mono text-[12px] md:text-sm text-[#9BB0D6] leading-relaxed">
-          Fintech · Insurance · Real Estate · EdTech · D2C · Healthcare · SEBI-registered advisory ·
-          Crypto &amp; Forex education. RBI, IRDAI, ASCI, SEBI and DPDP-compliant lead generation
-          across 22+ Indian states.
+          {region === "global" ? (
+            <>
+              iGaming &middot; Sportsbook &middot; Casino &middot; Poker &middot; Crypto CEX/DEX &middot; Web3.
+              MGA, UKGC, KGC, Curacao, Ontario iGO, Colombia Coljuegos, Brazil SPA licensed jurisdictions only.
+              <strong className="text-[#00A3FF]"> Never marketed in India or unlicensed markets.</strong>
+            </>
+          ) : (
+            <>
+              Fintech &middot; Insurance &middot; Real Estate &middot; EdTech &middot; D2C &middot; Healthcare &middot; SEBI-registered advisory &middot;
+              Crypto &amp; Forex education. RBI, IRDAI, ASCI, SEBI and DPDP-compliant lead generation
+              across 22+ Indian states.
+            </>
+          )}
         </p>
 
         <div className="mt-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">

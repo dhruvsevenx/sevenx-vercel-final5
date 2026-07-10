@@ -1,7 +1,8 @@
 import React from "react";
-import { partners } from "../mock/mock";
+import { useContent } from "../context/ContentContext";
 
 export default function Partners() {
+  const { partners } = useContent();
   const loop = [...partners, ...partners, ...partners];
   return (
     <section id="partners" className="relative py-20 md:py-28 border-t border-[#0F1B36] overflow-hidden">

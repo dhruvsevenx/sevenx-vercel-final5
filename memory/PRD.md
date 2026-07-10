@@ -1,60 +1,57 @@
 # SevenX Media — Product Requirements
 
 ## Vision
-India's premier performance marketing agency landing site for high-intent, regulated verticals — built to convert Indian and GCC enterprises.
+A **dual-audience premium marketing site** for SevenX Media that serves:
+1. **India-based visitors** and Indian regulators — compliant performance marketing for fintech, insurance, real estate, EdTech, D2C, SEBI-registered advisory and crypto/forex *education*.
+2. **International visitors** and iGaming/crypto search intent — full-funnel iGaming, sportsbook, casino, poker, lottery, crypto/Web3 growth **only inside licensed jurisdictions** (MGA, UKGC, KGC, Curacao, Ontario iGO, Colombia Coljuegos, Brazil SPA, etc.). **Never marketed in India**.
 
-## Original Problem Statement
-Deploy the `sevenxnew` repo to Vercel (Vercel Services / monorepo) and provide a simple editing workflow. Following that, adapt the site to the Indian market — remove iGaming / betting content, keep high-risk / high-intent verticals, make it 100% SEO-ranked, switch to a blue/white palette, replace the center 7X logo with a hologram (devils.inc style), add Google Analytics on every page, and connect the contact form to Google Sheets.
+## Original Problem Statement (compressed)
+1. Deploy `sevenxnew` to Vercel with clean edit workflow.
+2. Adapt to Indian market: remove iGaming/betting, keep high-intent verticals, RBI/IRDAI/SEBI/ASCI/DPDP compliant, 100% SEO ranked, blue+white theme, holographic 7X emblem, Google Analytics everywhere, Google Sheets on the form.
+3. Reintroduce the old iGaming site as a **secondary global route** so non-India visitors and Google searches for "iGaming/betting/casino/crypto marketing agency" land on the compliant iGaming variant — with a clear disclaimer that these services never run in India.
 
-## User Personas
-1. **Enterprise marketing leaders** — Growth Directors, CMOs and Heads of Marketing at Indian fintechs, insurtechs, real-estate portals, EdTechs and D2C brands looking for a compliance-aware performance partner.
-2. **Founders & Country Heads** — early-stage Indian founders and GCC market-entry teams evaluating vendors.
-3. **Compliance officers** — the site must survive scrutiny under ASCI, SEBI, IRDAI, RBI, Ayush, FSSAI and DPDP Act 2023.
-
-## Feature Status
-
-### Completed (2026-02)
-- Vercel Services monorepo config (`vercel.json`) with `yarn` build forced.
-- Lazy-Mongo FastAPI backend (returns 503 gracefully if `MONGO_URL` not set).
-- `DEPLOY_AND_EDIT.md` master edit-and-deploy guide.
-- "Made with Emergent" watermark removed sitewide (badge + injector script).
-- **India-market rewrite**:
-  - All iGaming/betting copy removed. Verticals shifted to fintech, insurance, real estate, EdTech, D2C, healthcare, SEBI advisory, crypto/forex *education*.
-  - Case studies rewritten around RBI/IRDAI/SEBI/Ayush-compliant clients.
-  - Partner logos swapped to real Indian brands (Groww, Upstox, Policybazaar, Acko, Bajaj Finserv, PhysicsWallah, Mamaearth etc.).
-  - Copy references DPDP Act 2023, ASCI, vernacular pods (Hindi / Tamil / Telugu / Marathi / Bengali / Kannada).
-- **Full SEO layer**:
-  - Title, description, keywords, canonical, robots, geo.region, ICBM.
-  - Open Graph + Twitter card meta.
-  - JSON-LD schema: Organization + ProfessionalService (with aggregateRating & OfferCatalog) + FAQPage.
-  - `sitemap.xml` and `robots.txt` served from `/public`.
-  - India-friendly (`lang="en-IN"`, `geo.region=IN-DL`).
-- **Google Analytics 4** (`G-VG9JEPE5YX`) firing on every page + `generate_lead` conversion on contact submit.
-- **Contact form → Google Sheets** via Apps Script Web App:
-  - Env-driven endpoint (`REACT_APP_SHEETS_ENDPOINT`), `no-cors` POST with `text/plain`, localStorage fallback so no lead is lost.
-  - Full setup guide in `/app/GOOGLE_SHEETS_SETUP.md`.
-- **Blue/navy theme**: electric-blue `#0057FF` + cyan-blue `#00A3FF` accents on deep-navy `#050B1F` surface. Chromatic gradient text for accent headlines.
-- **Holographic 7X emblem** (pure CSS/SVG) — layered rotating rings, cardinal ticks, iridescent conic-gradient core, radial glow, chromatic aberration ghosts, sweeping scan line, targeting crosshair.
-
-### Backlog (P1)
-- Wire contact form through FastAPI backend with MongoDB persistence (currently direct-to-Sheets + localStorage).
-- Add dedicated `/case-studies/[slug]` MDX pages for long-form SEO.
-- Add `/services/[slug]` service landing pages per vertical for keyword-specific SEO.
-- Add a `/blog` route with 3 pillar posts targeting the top keywords.
-- Deploy `og-image.png` (currently referenced but not present).
-- Verified Google Search Console + submit sitemap.
-
-### Backlog (P2)
-- Privacy Policy, Terms and Cookie Policy pages (currently footer links are placeholders).
-- Multilingual sub-sites (`/hi`, `/ta`).
-- Contact form → WhatsApp Business notification for the sales team.
+## Architecture
+- **Client-side routing**: `/` → `Home` (India), `/global` → `GlobalHome` (iGaming/crypto).
+- **`GeoRedirect`** — top-level component runs once on load, priority order:
+  1. `?region=in` / `?region=global` query param (persisted to localStorage).
+  2. Persisted `sevenx_region_choice`.
+  3. Search-intent keywords in `document.referrer` or UTM (`igaming`, `betting`, `casino`, `sportsbook`, `poker`, `crypto marketing`, `web3 marketing`, `affiliate casino`, `gambling`, …) → forces `/global`.
+  4. Geolocation via `ipapi.co/country/` — non-IN countries redirected to `/global`.
+- **`ContentContext`** provides either `mock.js` (India) or `mockGlobal.js` (Global) to every downstream component. One-line switch per component.
+- **`ComplianceBanner`** — sticky at top of `/global`, states iGaming/crypto services never run in India.
+- **`RegionToggle`** — floating pill in both variants for manual switching.
+- **Long-form jurisdiction notice** on `/global` explicitly names accepted regulators (MGA, UKGC, KGC, Curacao, Ontario iGO, Colombia Coljuegos, Brazil SPA, Nigeria NLRC, South Africa WCGRB, MiCA, FINTRAC) and links back to `/?region=in` for Indian visitors.
 
 ## Tech Stack
-- React 19 + Craco + Tailwind CSS 3 (frontend, Vercel static)
-- FastAPI + Motor + MongoDB (backend, Vercel Python serverless — lazy init)
-- Google Analytics 4 (gtag.js)
-- Google Apps Script Web App (Sheets bridge)
+React 19 · Craco · Tailwind · React Router v7 · React Context · Lucide icons · Google Analytics 4 (gtag) · Google Apps Script (Sheets bridge) · FastAPI backend (lazy Mongo, currently unused on Vercel).
 
-## Deployment
-- Vercel Services monorepo. See `DEPLOY_AND_EDIT.md`.
-- Set `REACT_APP_SHEETS_ENDPOINT` on Vercel before/right after go-live (see `GOOGLE_SHEETS_SETUP.md`).
+## Completed
+- **2026-02**: Vercel Services deploy config, DEPLOY_AND_EDIT.md, backend lazy-init, "Made with Emergent" watermark stripped.
+- **2026-02**: India-market rewrite (mock.js), electric blue palette (`#0057FF` / `#00A3FF` / `#050B1F`), holographic 7X emblem, full SEO stack (title/desc/keywords/OG/Twitter/JSON-LD Organization + ProfessionalService + FAQ, sitemap.xml, robots.txt), GA4 wired sitewide, Contact form → Google Sheets (Apps Script) with GA4 `generate_lead` event and localStorage fallback.
+- **2026-02**: **Dual-region site**. `/global` iGaming route with sticky compliance banner, jurisdiction notice section, region-aware Hero/Verticals/Contact copy, geo + keyword + UTM based auto-redirect, sitemap hreflang tags.
+
+## Backlog
+- **P1**: `og-image.png` at `/frontend/public/og-image.png`.
+- **P1**: Google Search Console setup + submit sitemap.xml.
+- **P1**: Privacy Policy, Terms and Cookie Policy pages (footer links currently placeholders).
+- **P2**: `/case-studies/[slug]` and `/services/[slug]` static MDX pages for long-tail SEO.
+- **P2**: Hindi / Tamil `/hi` and `/ta` sub-sites.
+- **P2**: Floating WhatsApp CTA button with GA4 click tracking.
+- **P2**: Server-side region detection via Vercel `x-vercel-ip-country` for faster/cheaper redirect than `ipapi.co`.
+
+## Deployment notes
+- Vercel Services monorepo. `vercel.json` forces `yarn` on the frontend service.
+- Env vars required on Vercel: `REACT_APP_SHEETS_ENDPOINT` (once the user deploys the Apps Script per `GOOGLE_SHEETS_SETUP.md`).
+- Optional: `MONGO_URL`, `DB_NAME`, `CORS_ORIGINS` for the backend service (returns 503 gracefully if absent).
+
+## Files of reference
+- `/app/frontend/src/pages/Home.jsx` — India landing page (wraps in ContentProvider region="india").
+- `/app/frontend/src/pages/GlobalHome.jsx` — Global iGaming landing page (banner + jurisdiction notice).
+- `/app/frontend/src/context/ContentContext.jsx` — provider that swaps mock data per region.
+- `/app/frontend/src/mock/mock.js` — India content.
+- `/app/frontend/src/mock/mockGlobal.js` — Global iGaming content.
+- `/app/frontend/src/components/GeoRedirect.jsx` — auto region routing (geo + keyword).
+- `/app/frontend/src/components/RegionToggle.jsx` — manual switch pill.
+- `/app/frontend/src/components/ComplianceBanner.jsx` — sticky top disclaimer on /global.
+- `/app/frontend/src/App.js` — routes both pages.
+- `/app/frontend/public/sitemap.xml` — both routes with hreflang alternates.
