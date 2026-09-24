@@ -68,18 +68,18 @@ function makeNeonEnvironment() {
   c.height = 256;
   const g = c.getContext("2d");
   const grad = g.createLinearGradient(0, 0, 0, 256);
-  grad.addColorStop(0, "#CFF6FF");
-  grad.addColorStop(0.28, "#22B8FF");
-  grad.addColorStop(0.55, "#1B2E9E");
-  grad.addColorStop(0.8, "#7B3CFF");
-  grad.addColorStop(1, "#FF6ADF");
+  grad.addColorStop(0, "#FFFFFF");
+  grad.addColorStop(0.3, "#A8E6FF");
+  grad.addColorStop(0.5, "#4A66E0");
+  grad.addColorStop(0.72, "#A487FF");
+  grad.addColorStop(1, "#FFD6F5");
   g.fillStyle = grad;
   g.fillRect(0, 0, 4, 256);
   const tex = new THREE.CanvasTexture(c);
   tex.colorSpace = THREE.SRGBColorSpace;
   const front = new THREE.Mesh(
     new THREE.PlaneGeometry(22, 14),
-    new THREE.MeshBasicMaterial({ map: tex, color: new THREE.Color(1.6, 1.6, 1.6), side: THREE.DoubleSide })
+    new THREE.MeshBasicMaterial({ map: tex, color: new THREE.Color(2, 2, 2), side: THREE.DoubleSide })
   );
   front.position.set(0, 0, 10);
   front.lookAt(0, 0, 0);
@@ -105,7 +105,7 @@ function buildWordmark(font) {
   const edge = new THREE.MeshStandardMaterial({
     color: PALETTE.blue,
     emissive: PALETTE.blue,
-    emissiveIntensity: 2.2,
+    emissiveIntensity: 0.8,
     metalness: 0.6,
     roughness: 0.3,
   });
@@ -126,7 +126,7 @@ function buildWordmark(font) {
   group.add(new THREE.Mesh(main, [chrome, edge]));
 
   // MEDIA: per-letter meshes so it can be widely tracked.
-  const glow = new THREE.MeshBasicMaterial({ color: PALETTE.cyan.clone().multiplyScalar(1.6), toneMapped: false });
+  const glow = new THREE.MeshBasicMaterial({ color: PALETTE.cyan.clone(), toneMapped: false });
   const size = 0.3;
   const tracking = 0.34;
   const letters = "MEDIA".split("").map((ch) => {
@@ -164,8 +164,9 @@ function buildGlobe(count) {
   geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
   geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
   const mat = new THREE.PointsMaterial({
-    size: 0.07,
-    map: makeGlowTexture([[0, "rgba(255,255,255,1)"], [0.35, "rgba(255,255,255,0.6)"], [1, "rgba(255,255,255,0)"]]),
+    size: 0.056,
+    map: makeGlowTexture([[0, "rgba(255,255,255,1)"], [0.25, "rgba(255,255,255,0.75)"], [0.55, "rgba(255,255,255,0.12)"], [1, "rgba(255,255,255,0)"]]),
+    opacity: 1,
     vertexColors: true,
     transparent: true,
     depthWrite: false,
@@ -177,7 +178,7 @@ function buildGlobe(count) {
   // Faint latitude / longitude wireframe for structure.
   const wire = new THREE.LineSegments(
     new THREE.EdgesGeometry(new THREE.SphereGeometry(radius * 0.995, 24, 12), 1),
-    new THREE.LineBasicMaterial({ color: PALETTE.blue, transparent: true, opacity: 0.12, depthWrite: false })
+    new THREE.LineBasicMaterial({ color: PALETTE.blue, transparent: true, opacity: 0.08, depthWrite: false })
   );
 
   const g = new THREE.Group();
@@ -196,12 +197,12 @@ function buildRings() {
     pivot.rotation.set(...tilt);
     const spin = new THREE.Group();
     const ring = new THREE.Mesh(
-      new THREE.TorusGeometry(r, 0.012, 8, 320),
-      new THREE.MeshBasicMaterial({ color: color.clone().multiplyScalar(1.4), toneMapped: false })
+      new THREE.TorusGeometry(r, 0.008, 8, 360),
+      new THREE.MeshBasicMaterial({ color: color.clone().multiplyScalar(0.85), transparent: true, opacity: 0.75, toneMapped: false })
     );
     const satellite = new THREE.Mesh(
-      new THREE.SphereGeometry(0.075, 16, 16),
-      new THREE.MeshBasicMaterial({ color: sat.clone().multiplyScalar(3), toneMapped: false })
+      new THREE.SphereGeometry(0.055, 16, 16),
+      new THREE.MeshBasicMaterial({ color: sat.clone().multiplyScalar(1.5), toneMapped: false })
     );
     satellite.position.set(r, 0, 0);
     spin.add(ring, satellite);
@@ -227,7 +228,7 @@ function buildProjector() {
           float fade = pow(1.0 - vUv.y, 1.6);
           float bands = 0.75 + 0.25 * sin(vUv.y * 60.0 - uTime * 4.0);
           float streaks = 0.85 + 0.15 * sin(vUv.x * 40.0 + uTime * 0.5);
-          gl_FragColor = vec4(uColor, fade * bands * streaks * 0.16);
+          gl_FragColor = vec4(uColor, fade * bands * streaks * 0.085);
         }`,
       transparent: true,
       depthWrite: false,
@@ -240,7 +241,7 @@ function buildProjector() {
 
   const base = new THREE.Mesh(
     new THREE.RingGeometry(0.5, 0.62, 96),
-    new THREE.MeshBasicMaterial({ color: PALETTE.cyan.clone().multiplyScalar(2), toneMapped: false, side: THREE.DoubleSide })
+    new THREE.MeshBasicMaterial({ color: PALETTE.cyan.clone(), toneMapped: false, side: THREE.DoubleSide })
   );
   base.rotation.x = -Math.PI / 2;
   base.position.y = baseY;
@@ -248,7 +249,7 @@ function buildProjector() {
 
   const halo = new THREE.Sprite(
     new THREE.SpriteMaterial({
-      map: makeGlowTexture([[0, "rgba(34,228,255,0.9)"], [0.4, "rgba(47,107,255,0.3)"], [1, "rgba(47,107,255,0)"]]),
+      map: makeGlowTexture([[0, "rgba(34,228,255,0.45)"], [0.4, "rgba(47,107,255,0.12)"], [1, "rgba(47,107,255,0)"]]),
       blending: THREE.AdditiveBlending,
       depthWrite: false,
       transparent: true,
@@ -297,7 +298,7 @@ export default function HologramScene() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 1.75));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.1;
+    renderer.toneMappingExposure = 1.0;
     renderer.setClearColor(PALETTE.bg, 1);
     wrap.appendChild(renderer.domElement);
 
@@ -324,7 +325,7 @@ export default function HologramScene() {
 
     const coreGlow = new THREE.Sprite(
       new THREE.SpriteMaterial({
-        map: makeGlowTexture([[0, "rgba(90,110,255,0.4)"], [0.45, "rgba(47,107,255,0.12)"], [1, "rgba(4,10,28,0)"]]),
+        map: makeGlowTexture([[0, "rgba(90,110,255,0.2)"], [0.45, "rgba(47,107,255,0.06)"], [1, "rgba(4,10,28,0)"]]),
         blending: THREE.AdditiveBlending,
         depthWrite: false,
         transparent: true,
@@ -343,9 +344,13 @@ export default function HologramScene() {
     const stars = buildStars(small ? 500 : 1100);
     scene.add(stars);
 
-    const composer = new EffectComposer(renderer);
+    // Multisampled target so edges stay smooth through post-processing.
+    const composer = new EffectComposer(
+      renderer,
+      new THREE.WebGLRenderTarget(1, 1, { samples: 4, type: THREE.HalfFloatType })
+    );
     composer.addPass(new RenderPass(scene, camera));
-    const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.75, 0.5, 0.78);
+    const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.38, 0.35, 0.9);
     composer.addPass(bloom);
     composer.addPass(new OutputPass());
 
