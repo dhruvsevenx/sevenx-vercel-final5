@@ -409,12 +409,18 @@ export default function HologramScene() {
       raf = requestAnimationFrame(loop);
     };
 
+    // Always paint a first frame, even before the visibility observer reports.
+    update(0);
+    composer.render();
+
     let io = null;
     if (reduced) {
       update(2.2);
       rig.rotation.set(0.12, -0.35, 0);
       composer.render();
     } else {
+      // Run straight away; the observer only pauses it while off-screen.
+      raf = requestAnimationFrame(loop);
       io = new IntersectionObserver(([entry]) => {
         cancelAnimationFrame(raf);
         raf = entry.isIntersecting ? requestAnimationFrame(loop) : 0;
