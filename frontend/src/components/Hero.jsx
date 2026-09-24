@@ -1,31 +1,119 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useContent } from "../context/ContentContext";
 import { ArrowDown } from "lucide-react";
 
+// Number of stacked back-layers that give the 7X its extruded depth.
+const EXTRUDE_LAYERS = 16;
+
+/**
+ * Tilts the hologram in 3D: follows the mouse when there is one,
+ * otherwise sways on its own. Writes --rx / --ry on the stage element
+ * directly (no React re-renders) and pauses while off-screen.
+ */
+function useHoloTilt(stageRef) {
+  useEffect(() => {
+    const rig = stageRef.current;
+    if (!rig || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+
+    let raf = 0;
+    let pointer = null;
+    const cur = { x: 0, y: 0 };
+
+    const onMove = (e) => {
+      if (e.pointerType !== "mouse") return;
+      pointer = { x: e.clientX / window.innerWidth - 0.5, y: e.clientY / window.innerHeight - 0.5 };
+    };
+    const onLeave = () => { pointer = null; };
+
+    const loop = (t) => {
+      const target = pointer
+        ? { x: -pointer.y * 44, y: pointer.x * 64 }
+        : { x: Math.sin(t / 2600) * 14, y: Math.sin(t / 3400) * 32 };
+      cur.x += (target.x - cur.x) * 0.06;
+      cur.y += (target.y - cur.y) * 0.06;
+      rig.style.setProperty("--rx", `${cur.x.toFixed(2)}deg`);
+      rig.style.setProperty("--ry", `${cur.y.toFixed(2)}deg`);
+      raf = requestAnimationFrame(loop);
+    };
+
+    const io = new IntersectionObserver(([entry]) => {
+      cancelAnimationFrame(raf);
+      raf = entry.isIntersecting ? requestAnimationFrame(loop) : 0;
+    });
+    io.observe(rig);
+    window.addEventListener("pointermove", onMove, { passive: true });
+    document.documentElement.addEventListener("mouseleave", onLeave);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      io.disconnect();
+      window.removeEventListener("pointermove", onMove);
+      document.documentElement.removeEventListener("mouseleave", onLeave);
+    };
+  }, [stageRef]);
+}
+
 /**
  * Holographic 7X Emblem — devils.inc-inspired centerpiece.
- * Pure CSS + SVG. Rotating rings, chromatic aberration, scan line and iridescent core.
+ * CSS 3D: a wireframe globe and gyroscope orbits spinning in real 3D space,
+ * an extruded 7X, and parallax layers — all tilting with the pointer.
+ * The 7X lives in its own 3D layer on top so the globe's planes never
+ * slice through it; both layers share the same tilt.
  */
 function Hologram() {
+  const stageRef = useRef(null);
+  useHoloTilt(stageRef);
+
   return (
-    <div className="holo-stage" role="img" aria-label="SevenX 7X holographic emblem" data-testid="hero-hologram">
-      <div className="holo-core" />
-      <div className="holo-ring r1" />
-      <div className="holo-ring r2" />
-      <div className="holo-ring r3" />
-      <div className="holo-ring r4" />
-      <div className="holo-ticks">
-        {Array.from({ length: 24 }).map((_, i) => (
-          <span key={i} style={{ transform: `translateX(-50%) rotate(${(i * 360) / 24}deg)` }} />
-        ))}
+    <div className="holo-stage" ref={stageRef} role="img" aria-label="SevenX 7X holographic emblem" data-testid="hero-hologram">
+      <div className="holo-rig">
+        <div className="holo-core" />
+        <div className="holo-ring r1" />
+        <div className="holo-ticks">
+          {Array.from({ length: 24 }).map((_, i) => (
+            <span key={i} style={{ transform: `translateX(-50%) rotate(${(i * 360) / 24}deg)` }} />
+          ))}
+        </div>
+        <div className="holo-ring r4" />
+
+        <div className="holo-globe">
+          {[0, 45, 90, 135].map((deg) => (
+            <span key={deg} className="holo-meridian" style={{ transform: `rotateY(${deg}deg)` }} />
+          ))}
+          <span className="holo-latitude" />
+          <span className="holo-latitude north" />
+          <span className="holo-latitude south" />
+        </div>
+
+        <div className="holo-orbit o1"><span className="holo-sat" /></div>
+        <div className="holo-orbit o2"><span className="holo-sat" /></div>
+
+        <div className="holo-cross">
+          <span className="top" />
+          <span className="bottom" />
+          <span className="left" />
+          <span className="right" />
+        </div>
       </div>
-      <div className="holo-scan" />
-      <div className="holo-text" aria-hidden="true">7X</div>
-      <div className="holo-cross">
-        <span className="top" />
-        <span className="bottom" />
-        <span className="left" />
-        <span className="right" />
+
+      <div className="holo-rig">
+        <div className="holo-text3d" aria-hidden="true">
+          {Array.from({ length: EXTRUDE_LAYERS }).map((_, i) => (
+            <span
+              key={i}
+              className="holo-extrude"
+              style={{
+                transform: `translateZ(${-(i + 1) * 2}px)`,
+                color: `hsl(220, 100%, ${46 - (i * 30) / EXTRUDE_LAYERS}%)`,
+              }}
+            >
+              7X
+            </span>
+          ))}
+          <div className="holo-text">7X</div>
+        </div>
+
+        <div className="holo-scan" />
       </div>
 
       <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" fill="none" aria-hidden="true">
