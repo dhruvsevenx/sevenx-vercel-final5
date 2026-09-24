@@ -14,16 +14,35 @@ function supportsWebGL() {
   }
 }
 
+// Falls back to the CSS hologram if the WebGL chunk fails to load or the
+// renderer can't start, instead of taking the whole page down.
+class EmblemBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { failed: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+
+  render() {
+    return this.state.failed ? <Hologram /> : this.props.children;
+  }
+}
+
 // Shows the WebGL emblem when the device can render it; the CSS hologram
-// covers loading and devices without WebGL.
+// covers loading, failures and devices without WebGL.
 function HeroEmblem() {
   const [webgl] = useState(supportsWebGL);
   return (
     <div className="holo-frame">
       {webgl ? (
-        <Suspense fallback={<Hologram />}>
-          <HologramScene />
-        </Suspense>
+        <EmblemBoundary>
+          <Suspense fallback={<Hologram />}>
+            <HologramScene />
+          </Suspense>
+        </EmblemBoundary>
       ) : (
         <Hologram />
       )}
