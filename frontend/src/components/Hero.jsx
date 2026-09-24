@@ -53,11 +53,21 @@ function useHoloTilt(stageRef) {
   }, [stageRef]);
 }
 
+// The emblem's wordmark. Rendered once per extrusion / ghost / face layer.
+function HoloWord({ className, style }) {
+  return (
+    <span className={`holo-word ${className}`} style={style}>
+      <span className="w1">SEVENX</span>
+      <span className="w2">MEDIA</span>
+    </span>
+  );
+}
+
 /**
- * Holographic 7X Emblem — devils.inc-inspired centerpiece.
+ * Holographic SEVENX MEDIA Emblem — devils.inc-inspired centerpiece.
  * CSS 3D: a wireframe globe and gyroscope orbits spinning in real 3D space,
- * an extruded 7X, and parallax layers — all tilting with the pointer.
- * The 7X lives in its own 3D layer on top so the globe's planes never
+ * an extruded wordmark, and parallax layers — all tilting with the pointer.
+ * The wordmark lives in its own 3D layer on top so the globe's planes never
  * slice through it; both layers share the same tilt.
  */
 function Hologram() {
@@ -65,7 +75,7 @@ function Hologram() {
   useHoloTilt(stageRef);
 
   return (
-    <div className="holo-stage" ref={stageRef} role="img" aria-label="SevenX 7X holographic emblem" data-testid="hero-hologram">
+    <div className="holo-stage" ref={stageRef} role="img" aria-label="SevenX Media holographic emblem" data-testid="hero-hologram">
       <div className="holo-rig">
         <div className="holo-core" />
         <div className="holo-ring r1" />
@@ -99,18 +109,18 @@ function Hologram() {
       <div className="holo-rig">
         <div className="holo-text3d" aria-hidden="true">
           {Array.from({ length: EXTRUDE_LAYERS }).map((_, i) => (
-            <span
+            <HoloWord
               key={i}
               className="holo-extrude"
               style={{
                 transform: `translateZ(${-(i + 1) * 2}px)`,
                 color: `hsl(220, 100%, ${46 - (i * 30) / EXTRUDE_LAYERS}%)`,
               }}
-            >
-              7X
-            </span>
+            />
           ))}
-          <div className="holo-text">7X</div>
+          <HoloWord className="holo-text" />
+          <HoloWord className="holo-ghost cyan" />
+          <HoloWord className="holo-ghost pink" />
         </div>
 
         <div className="holo-scan" />

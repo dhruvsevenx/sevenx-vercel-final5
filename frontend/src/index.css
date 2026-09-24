@@ -129,7 +129,7 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ==========================================================================
-   HOLOGRAM 7X — devils.inc-style rotating holographic emblem
+   HOLOGRAM SEVENX MEDIA — devils.inc-style 3D holographic emblem
    Pure CSS + SVG, GPU-accelerated
    ========================================================================== */
 
@@ -269,7 +269,7 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
   box-shadow: 0 0 10px #00A3FF, 0 0 22px #0057FF;
 }
 
-/* Extruded 7X — stacked back-layers + glowing front face */
+/* Extruded SEVENX / MEDIA wordmark — stacked back-layers + glowing front face */
 .holo-text3d {
   inset: 0;
   transform-style: preserve-3d;
@@ -279,16 +279,24 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
   0%, 100% { transform: translateZ(20px) translateY(0); }
   50% { transform: translateZ(20px) translateY(-6px); }
 }
-.holo-extrude,
-.holo-text {
+.holo-word {
   position: absolute;
   inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: 'Archivo Black', sans-serif;
-  font-size: clamp(72px, 12vw, 148px);
-  letter-spacing: -0.04em;
+  font-size: clamp(40px, 6.4vw, 66px);
+  line-height: 0.9;
+  pointer-events: none;
+}
+.holo-word .w1 { letter-spacing: -0.03em; }
+.holo-word .w2 {
+  margin-top: 0.3em;
+  font-size: 0.4em;
+  letter-spacing: 0.62em;
+  text-indent: 0.62em; /* balance the trailing tracking so MEDIA stays centred */
 }
 .holo-extrude {
   color: #0A3A9E; /* overridden per layer, front-to-back darkening */
@@ -301,29 +309,18 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
 }
 
 /* Chromatic aberration ghosts */
-.holo-text::before,
-.holo-text::after {
-  content: '7X';
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
+.holo-ghost {
   mix-blend-mode: screen;
-}
-.holo-text::before {
-  color: #00A3FF;
-  transform: translate(2px, 0);
-  opacity: 0.55;
   filter: blur(0.6px);
+}
+.holo-ghost.cyan {
+  color: #00A3FF;
+  opacity: 0.55;
   animation: holo-aberrate 3.6s ease-in-out infinite;
 }
-.holo-text::after {
+.holo-ghost.pink {
   color: #FF39A8;
-  transform: translate(-2px, 0);
   opacity: 0.35;
-  filter: blur(0.6px);
   animation: holo-aberrate 3.6s ease-in-out infinite reverse;
 }
 @keyframes holo-aberrate {
