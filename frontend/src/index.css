@@ -398,6 +398,35 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
   .holo-rig *::after { animation-play-state: paused !important; }
 }
 
+/* WebGL emblem frame. Same box for the CSS fallback so nothing shifts when it swaps. */
+.holo-frame {
+  position: relative;
+  width: min(100%, 980px);
+  height: 380px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (min-width: 768px) {
+  .holo-frame { height: 580px; }
+}
+.holo-webgl {
+  position: absolute;
+  inset: 0;
+  /* Feather the canvas into the page background. */
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 62%, transparent 100%);
+  animation: holo-webgl-in 1.2s ease-out both;
+}
+.holo-webgl canvas { display: block; width: 100% !important; height: 100% !important; }
+@keyframes holo-webgl-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .holo-webgl { animation: none; }
+}
+
 /* ==========================================================================
    Utility helpers
    ========================================================================== */

@@ -1,6 +1,35 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { useContent } from "../context/ContentContext";
 import { ArrowDown } from "lucide-react";
+
+// WebGL emblem, split into its own chunk so three.js never blocks first paint.
+const HologramScene = lazy(() => import("./HologramScene"));
+
+function supportsWebGL() {
+  try {
+    const c = document.createElement("canvas");
+    return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl")));
+  } catch (_e) {
+    return false;
+  }
+}
+
+// Shows the WebGL emblem when the device can render it; the CSS hologram
+// covers loading and devices without WebGL.
+function HeroEmblem() {
+  const [webgl] = useState(supportsWebGL);
+  return (
+    <div className="holo-frame">
+      {webgl ? (
+        <Suspense fallback={<Hologram />}>
+          <HologramScene />
+        </Suspense>
+      ) : (
+        <Hologram />
+      )}
+    </div>
+  );
+}
 
 // Number of stacked back-layers that give the 7X its extruded depth.
 const EXTRUDE_LAYERS = 16;
@@ -183,8 +212,8 @@ export default function Hero() {
         ))}
       </div>
 
-      <div className="relative flex items-center justify-center py-10 md:py-14">
-        <Hologram />
+      <div className="relative flex items-center justify-center py-6 md:py-8">
+        <HeroEmblem />
       </div>
 
       <div className="relative px-6 md:px-10">
