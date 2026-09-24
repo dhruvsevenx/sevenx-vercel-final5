@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
@@ -6,6 +6,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
+import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass.js";
 // Archivo Black (SIL OFL), subset to the wordmark glyphs and converted to three.js typeface JSON.
 import wordmarkFont from "../assets/archivo-black-wordmark.typeface.json";
 
@@ -26,6 +27,41 @@ const PALETTE = {
   violet: new THREE.Color("#8B5CFF"),
   magenta: new THREE.Color("#FF4FD8"),
 };
+
+// Zeroes NaN / Inf pixels before bloom. Some GPUs (notably Apple's) emit a few
+// from the physical material, and bloom's blur would smear them to black.
+const SanitizeShader = {
+  uniforms: { tDiffuse: { value: null } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: `
+    uniform sampler2D tDiffuse; varying vec2 vUv;
+    void main(){
+      vec4 c = texture2D(tDiffuse, vUv);
+      if (any(isnan(c)) || any(isinf(c))) c = vec4(0.0, 0.0, 0.0, 1.0);
+      gl_FragColor = clamp(c, 0.0, 64.0);
+    }`,
+};
+
+// True when the canvas's last frame came out (near) black: samples a grid of
+// pixels over the middle of the drawing buffer, where the wordmark sits.
+function frameLooksBlank(renderer) {
+  const gl = renderer.getContext();
+  const w = gl.drawingBufferWidth;
+  const h = gl.drawingBufferHeight;
+  const px = new Uint8Array(4);
+  let max = 0;
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 7; j++) {
+      const x = Math.floor(w * (0.3 + (0.4 * i) / 8));
+      const y = Math.floor(h * (0.35 + (0.3 * j) / 6));
+      gl.readPixels(x, y, 1, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+      max = Math.max(max, px[0], px[1], px[2]);
+    }
+  }
+  renderer.resetState();
+  return max < 60;
+}
 
 // Soft round sprite for particles and glows.
 function makeGlowTexture(stops) {
@@ -287,6 +323,9 @@ function buildStars(count) {
 
 export default function HologramScene() {
   const wrapRef = useRef(null);
+  const [failed, setFailed] = useState(false);
+  // Thrown during render so the EmblemBoundary in Hero swaps in the CSS hologram.
+  if (failed) throw new Error("WebGL emblem rendered blank on this device");
 
   useEffect(() => {
     const wrap = wrapRef.current;
@@ -350,6 +389,7 @@ export default function HologramScene() {
       new THREE.WebGLRenderTarget(1, 1, { samples: 4, type: THREE.HalfFloatType })
     );
     composer.addPass(new RenderPass(scene, camera));
+    composer.addPass(new ShaderPass(SanitizeShader));
     const bloom = new UnrealBloomPass(new THREE.Vector2(1, 1), 0.38, 0.35, 0.9);
     composer.addPass(bloom);
     composer.addPass(new OutputPass());
@@ -401,34 +441,19 @@ export default function HologramScene() {
       magentaLight.position.set(Math.cos(t * 0.6 + Math.PI) * 6, -2, Math.sin(t * 0.6 + Math.PI) * 3 - 1);
     };
 
+    // Post-processing on by default; dropped if it renders blank on this GPU.
+    let usePost = true;
+    const draw = () => (usePost ? composer.render() : renderer.render(scene, camera));
+
     let raf = 0;
     const loop = (ts) => {
       timer.update(ts);
       update(timer.getElapsed());
-      composer.render();
+      draw();
       raf = requestAnimationFrame(loop);
     };
 
-    // Always paint a first frame, even before the visibility observer reports.
-    update(0);
-    composer.render();
-
-    let io = null;
-    if (reduced) {
-      update(2.2);
-      rig.rotation.set(0.12, -0.35, 0);
-      composer.render();
-    } else {
-      // Run straight away; the observer only pauses it while off-screen.
-      raf = requestAnimationFrame(loop);
-      io = new IntersectionObserver(([entry]) => {
-        cancelAnimationFrame(raf);
-        raf = entry.isIntersecting ? requestAnimationFrame(loop) : 0;
-      });
-      io.observe(wrap);
-    }
-
-    return () => {
+    const cleanup = () => {
       cancelAnimationFrame(raf);
       io?.disconnect();
       ro.disconnect();
@@ -445,15 +470,39 @@ export default function HologramScene() {
       renderer.dispose();
       renderer.domElement.remove();
     };
+
+    // Paint a first frame straight away and check it actually shows something.
+    let io = null;
+    update(reduced ? 2.2 : 0);
+    if (reduced) rig.rotation.set(0.12, -0.35, 0);
+    draw();
+    if (frameLooksBlank(renderer)) {
+      usePost = false;
+      draw();
+      if (frameLooksBlank(renderer)) {
+        cleanup();
+        setFailed(true);
+        return undefined;
+      }
+    }
+
+    if (!reduced) {
+      // Run straight away; the observer only pauses it while off-screen.
+      raf = requestAnimationFrame(loop);
+      io = new IntersectionObserver(([entry]) => {
+        cancelAnimationFrame(raf);
+        raf = entry.isIntersecting ? requestAnimationFrame(loop) : 0;
+      });
+      io.observe(wrap);
+    }
+
+    return cleanup;
   }, []);
 
   return (
-    <div
-      ref={wrapRef}
-      className="holo-webgl"
-      role="img"
-      aria-label="SevenX Media 3D holographic emblem"
-      data-testid="hero-hologram"
-    />
+    <div className="holo-webgl" role="img" aria-label="SevenX Media 3D holographic emblem" data-testid="hero-hologram">
+      <div ref={wrapRef} className="holo-webgl-canvas" />
+      <div className="holo-webgl-vignette" aria-hidden="true" />
+    </div>
   );
 }

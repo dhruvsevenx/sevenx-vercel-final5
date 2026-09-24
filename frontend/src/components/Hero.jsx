@@ -8,7 +8,8 @@ const HologramScene = lazy(() => import("./HologramScene"));
 function supportsWebGL() {
   try {
     const c = document.createElement("canvas");
-    return !!(window.WebGLRenderingContext && (c.getContext("webgl2") || c.getContext("webgl")));
+    // three.js needs WebGL 2.
+    return !!(window.WebGL2RenderingContext && c.getContext("webgl2"));
   } catch (_e) {
     return false;
   }
