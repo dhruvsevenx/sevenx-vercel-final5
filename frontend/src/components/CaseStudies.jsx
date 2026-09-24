@@ -13,10 +13,10 @@ export default function CaseStudies() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_001</span> CASE_STUDIES
           </div>
-          <h3 className="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
+          <h2 className="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
             SIGNALS FROM<br/>
             <span className="text-[#00A3FF]">THE FIELD.</span>
-          </h3>
+          </h2>
         </div>
         <div className="font-mono text-[10px] text-[#6B7FA8] tracking-widest max-w-xs">
           <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_002</span>
@@ -40,9 +40,9 @@ export default function CaseStudies() {
               >
                 <div className="flex items-center gap-6">
                   <span className="font-mono text-[10px] text-[#00A3FF]">{c.id}</span>
-                  <h4 className="font-display text-2xl md:text-5xl uppercase tracking-tight text-[#E6EDFF]">
+                  <h3 className="font-display text-2xl md:text-5xl uppercase tracking-tight text-[#E6EDFF]">
                     {c.client}
-                  </h4>
+                  </h3>
                 </div>
                 <Plus className={`w-6 h-6 md:w-8 md:h-8 transition-transform duration-500 ${isOpen ? "rotate-45 text-[#00A3FF]" : "text-[#E6EDFF]"}`} strokeWidth={1.5} />
               </button>

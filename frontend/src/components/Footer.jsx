@@ -1,9 +1,30 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Send, Instagram, Linkedin, Youtube } from "lucide-react";
+import { useContent } from "../context/ContentContext";
+import content from "../content/globalContent.json";
 
 const letters = "STABILITY.THAT.SCALES.INTO.GROWTH".split("");
 
+const indiaLinks = [
+  { label: "SERVICES", href: "/#services" },
+  { label: "VERTICALS", href: "/#verticals" },
+  { label: "CASE STUDIES", href: "/#cases" },
+  { label: "PARTNERS", href: "/#partners" },
+  { label: "CONTACT", href: "#contact" },
+];
+
+const globalLinks = [
+  { label: "WHAT WE DO", href: "/global#capabilities" },
+  ...content.services.map((s) => ({ label: s.name.toUpperCase(), to: `/global/${s.slug}` })),
+  { label: "FAQ", href: "/global#faq" },
+  { label: "CONTACT", href: "#contact" },
+];
+
 export default function Footer() {
+  const { region, coordinates } = useContent();
+  const isGlobal = region === "global";
+  const links = isGlobal ? globalLinks : indiaLinks;
   return (
     <footer className="relative border-t border-[#0F1B36] bg-[#050B1F] overflow-hidden" data-testid="footer">
       <div className="px-6 md:px-10 pt-16 md:pt-24 pb-10">
@@ -24,18 +45,33 @@ export default function Footer() {
         <div className="md:col-span-4">
           <div className="font-display text-2xl text-[#00A3FF] mb-4">SEVENX MEDIA</div>
           <p className="font-mono text-xs text-[#9BB0D6] leading-[1.8] uppercase max-w-sm">
-            India&apos;s performance marketing agency for high-intent verticals. RBI &middot; IRDAI &middot; SEBI &middot; ASCI &middot; DPDP compliant. 42 brands scaled, 22 states, 8.4M+ qualified leads.
+            {isGlobal ? (
+              <>Performance marketing, media buying, lead generation and affiliate growth for brands and affiliate programs in international markets.</>
+            ) : (
+              <>India&apos;s performance marketing agency for high-intent verticals. RBI &middot; IRDAI &middot; SEBI &middot; ASCI &middot; DPDP compliant. 42 brands scaled, 22 states, 8.4M+ qualified leads.</>
+            )}
           </p>
+          <Link
+            to={isGlobal ? "/" : "/global"}
+            className="mt-5 inline-block font-mono text-[10px] tracking-widest text-[#00A3FF] hover:text-white"
+            data-testid="footer-region-link"
+          >
+            {isGlobal ? "SEVENX INDIA →" : "SEVENX GLOBAL →"}
+          </Link>
         </div>
 
         <div className="md:col-span-2">
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">NAVIGATE</div>
           <ul className="space-y-2 font-mono text-xs text-[#9BB0D6]">
-            <li><a href="#services" className="hover:text-[#00A3FF]">SERVICES</a></li>
-            <li><a href="#verticals" className="hover:text-[#00A3FF]">VERTICALS</a></li>
-            <li><a href="#cases" className="hover:text-[#00A3FF]">CASE STUDIES</a></li>
-            <li><a href="#partners" className="hover:text-[#00A3FF]">PARTNERS</a></li>
-            <li><a href="#contact" className="hover:text-[#00A3FF]">CONTACT</a></li>
+            {links.map((l) => (
+              <li key={l.label}>
+                {l.to ? (
+                  <Link to={l.to} className="hover:text-[#00A3FF]">{l.label}</Link>
+                ) : (
+                  <a href={l.href} className="hover:text-[#00A3FF]">{l.label}</a>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -43,9 +79,9 @@ export default function Footer() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">CONTACT</div>
           <ul className="space-y-2 font-mono text-xs text-[#9BB0D6]">
             <li>INFO@SEVENXMEDIA.IN</li>
-            <li>NEW DELHI &middot; MUMBAI &middot; BENGALURU</li>
-            <li>28&deg;36&apos;48.99&quot;N</li>
-            <li>77&deg;13&apos;19.99&quot;E</li>
+            <li>{isGlobal ? coordinates.location : <>NEW DELHI &middot; MUMBAI &middot; BENGALURU</>}</li>
+            <li>{isGlobal ? coordinates.lat : <>28&deg;36&apos;48.99&quot;N</>}</li>
+            <li>{isGlobal ? coordinates.lng : <>77&deg;13&apos;19.99&quot;E</>}</li>
           </ul>
         </div>
 

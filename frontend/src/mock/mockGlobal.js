@@ -1,12 +1,16 @@
-// SevenX Media — GLOBAL (iGaming/Crypto) market content.
-// This variant is served to non-India visitors and to Google searches with
-// iGaming/betting/casino/crypto/sportsbook intent.
-// EVERY campaign runs only where operator licenses exist. Nothing is offered in India.
+// SevenX Media — GLOBAL market content: international performance marketing,
+// media buying, lead generation and affiliate growth, with iGaming as one
+// specialist vertical. iGaming work runs only where operator licenses exist;
+// none of it is offered in India.
+//
+// TO CONFIRM: stats, case studies, testimonials, partner names and the
+// location line below pre-date the Global repositioning and have not been
+// verified. Replace or remove anything that isn't accurate.
 
 export const heroTags = [
-  { no: "NO_001", text: "Global iGaming, Sportsbook, Casino & Crypto Growth Agency." },
-  { no: "NO_002", text: "48-Hour Campaign Launch. Proprietary Fraud-Aware Tracking Stack." },
-  { no: "NO_003", text: "Licensed Jurisdictions Only. Never India. Never Restricted Markets." },
+  { no: "NO_001", text: "Global performance marketing, media buying & lead generation." },
+  { no: "NO_002", text: "Affiliate management, publisher recruitment & sub-affiliate operations." },
+  { no: "NO_003", text: "Specialist iGaming affiliate growth. Licensed markets only. Never India." },
 ];
 
 export const stats = [
@@ -193,6 +197,13 @@ export const whyChoose = [
 ];
 
 export const verticals = [
+  { name: "FINTECH", note: "PAYMENTS · LENDING · APPS" },
+  { name: "FINANCIAL SERVICES", note: "HIGH-INTENT LEADS" },
+  { name: "INSURANCE", note: "LEAD GENERATION" },
+  { name: "REAL ESTATE", note: "QUALIFIED ENQUIRIES" },
+  { name: "EDTECH", note: "ENROLMENT FUNNELS" },
+  { name: "D2C / ECOMMERCE", note: "PAID ACQUISITION" },
+  { name: "HEALTHCARE", note: "COMPLIANT LEADS" },
   { name: "SPORTSBOOK", note: "MGA / UKGC / KGC" },
   { name: "ONLINE CASINO", note: "LICENSED JURISDICTIONS" },
   { name: "POKER", note: "REGULATED ONLY" },

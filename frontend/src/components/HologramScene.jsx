@@ -226,7 +226,7 @@ function buildRings() {
   const specs = [
     { r: 3.25, tilt: [1.2, 0.3, 0], speed: 0.35, color: PALETTE.cyan, sat: PALETTE.cyan },
     { r: 3.55, tilt: [1.75, -0.55, 0.2], speed: -0.22, color: PALETTE.violet, sat: PALETTE.magenta },
-    { r: 3.9, tilt: [0.35, 1.1, 0], speed: 0.14, color: PALETTE.blue, sat: PALETTE.cyan },
+    { r: 3.4, tilt: [0.35, 1.1, 0], speed: 0.14, color: PALETTE.blue, sat: PALETTE.cyan },
   ];
   return specs.map(({ r, tilt, speed, color, sat }) => {
     const pivot = new THREE.Group();
@@ -251,7 +251,7 @@ function buildRings() {
 function buildProjector() {
   // Hologram projector: a glowing base ring and a soft light beam rising into the globe.
   const g = new THREE.Group();
-  const baseY = -3.05;
+  const baseY = -2.9;
 
   const beam = new THREE.Mesh(
     new THREE.CylinderGeometry(2.4, 0.55, 2.6, 96, 1, true),
@@ -291,7 +291,7 @@ function buildProjector() {
       transparent: true,
     })
   );
-  halo.scale.set(3.2, 1.1, 1);
+  halo.scale.set(3.2, 0.75, 1);
   halo.position.y = baseY;
   g.add(halo);
 
@@ -334,11 +334,12 @@ export default function HologramScene() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const small = wrap.clientWidth < 700;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, small ? 1.5 : 1.75));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.0;
-    renderer.setClearColor(PALETTE.bg, 1);
+    // Transparent canvas: the hero background shows through, so there is no box edge.
+    renderer.setClearColor(0x000000, 0);
     wrap.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -402,7 +403,7 @@ export default function HologramScene() {
       composer.setSize(w, h);
       camera.aspect = w / h;
       // Keep the wordmark + rings framed on narrow screens.
-      camera.position.set(0, 0.15, camera.aspect < 1.25 ? 14 : 10.6);
+      camera.position.set(0, 0.1, camera.aspect < 1.25 ? 14.8 : 11.6);
       camera.lookAt(0, -0.1, 0);
       camera.updateProjectionMatrix();
     };

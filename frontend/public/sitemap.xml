@@ -2,44 +2,39 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://www.sevenxmedia.in/</loc>
+    <loc>https://www.sevenxm.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.sevenxmedia.in/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sevenxmedia.in/global" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sevenxmedia.in/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.sevenxm.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sevenxm.com/global" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sevenxm.com/" />
   </url>
   <url>
-    <loc>https://www.sevenxmedia.in/global</loc>
+    <loc>https://www.sevenxm.com/global</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.sevenxmedia.in/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.sevenxmedia.in/global" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sevenxmedia.in/" />
+    <xhtml:link rel="alternate" hreflang="en-in" href="https://www.sevenxm.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.sevenxm.com/global" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.sevenxm.com/" />
   </url>
   <url>
-    <loc>https://www.sevenxmedia.in/#services</loc>
+    <loc>https://www.sevenxm.com/global/affiliate-management</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.sevenxmedia.in/#cases</loc>
+    <loc>https://www.sevenxm.com/global/affiliate-recruitment</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.sevenxmedia.in/#contact</loc>
+    <loc>https://www.sevenxm.com/global/sub-affiliate</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.sevenxmedia.in/global#services</loc>
+    <loc>https://www.sevenxm.com/global/igaming-affiliate-management</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://www.sevenxmedia.in/global#cases</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.8</priority>
   </url>
 </urlset>

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowUpRight, Check, Loader2 } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 import { useContent } from "../context/ContentContext";
+import { INTENT_EVENT } from "../lib/intent";
 
 const services = [
   "PERFORMANCE MARKETING",
@@ -11,6 +12,21 @@ const services = [
   "CRO",
   "WHATSAPP FUNNELS",
   "SEO / GEO",
+  "OTHER",
+];
+
+// Global options double as the targets of the intent CTAs (see lib/intent.js).
+const globalNeeds = [
+  "PERFORMANCE MARKETING",
+  "MEDIA BUYING",
+  "LEAD GENERATION",
+  "AFFILIATE MANAGEMENT",
+  "AFFILIATE RECRUITMENT",
+  "SUB-AFFILIATE",
+  "IGAMING AFFILIATE GROWTH",
+  "MARKET EXPANSION",
+  "TRACKING & ATTRIBUTION",
+  "CRO",
   "OTHER",
 ];
 
@@ -28,6 +44,18 @@ export default function Contact() {
     budget: "",
     message: "",
   });
+  const isGlobal = region === "global";
+  const options = isGlobal ? globalNeeds : services;
+
+  // Intent CTAs elsewhere on the page pre-select what the visitor needs.
+  useEffect(() => {
+    const onIntent = (e) => {
+      if (options.includes(e.detail)) setForm((f) => ({ ...f, vertical: e.detail }));
+    };
+    window.addEventListener(INTENT_EVENT, onIntent);
+    return () => window.removeEventListener(INTENT_EVENT, onIntent);
+  }, [options]);
+
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -102,12 +130,12 @@ export default function Contact() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_001</span> WORK_WITH_US
           </div>
-          <h3 className="font-display text-5xl md:text-7xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
+          <h2 className="font-display text-5xl md:text-7xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
             {region === "global" ? (
               <>
                 READY TO<br />
-                LAUNCH IN<br />
-                <span className="gradient-text">LICENSED MARKETS?</span>
+                SCALE<br />
+                <span className="gradient-text">ACQUISITION?</span>
               </>
             ) : (
               <>
@@ -116,10 +144,12 @@ export default function Contact() {
                 <span className="gradient-text">INDIA?</span>
               </>
             )}
-          </h3>
+          </h2>
           <p className="font-mono text-[12px] text-[#9BB0D6] leading-[1.8] uppercase mt-8 max-w-md">
             <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_002</span>
-            48-hour campaign turnaround. Vernacular pods per state. ROI-first thinking baked in from day zero.
+            {isGlobal
+              ? "Tell us what you want to grow: a paid acquisition channel, an affiliate program, or a new market."
+              : "48-hour campaign turnaround. Vernacular pods per state. ROI-first thinking baked in from day zero."}
           </p>
 
           <div className="mt-10 space-y-3 font-mono text-xs text-[#9BB0D6]">
@@ -144,10 +174,10 @@ export default function Contact() {
               <Field label="PHONE / WHATSAPP" idx="NO_004" value={form.phone} onChange={upd("phone")} placeholder={region === "global" ? "+ country code ..." : "+91 ..."} testId="input-phone" />
               <div className="md:col-span-2">
                 <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-2">
-                  <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_005</span> VERTICAL
+                  <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_005</span> {isGlobal ? "WHAT DO YOU NEED?" : "VERTICAL"}
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {services.map((s) => (
+                  {options.map((s) => (
                     <button
                       key={s}
                       type="button"
@@ -198,7 +228,7 @@ export default function Contact() {
               className="mt-6 group w-full flex items-center justify-between bg-[#0057FF] text-white px-6 py-5 font-display text-xl md:text-2xl uppercase tracking-tight hover:bg-[#00A3FF] hover:text-[#050B1F] transition-colors disabled:opacity-70"
             >
               <span>
-                {loading ? "TRANSMITTING..." : sent ? "TRANSMISSION SENT" : "SUBMIT TRANSMISSION"}
+                {loading ? "TRANSMITTING..." : sent ? "TRANSMISSION SENT" : isGlobal ? "TALK TO SEVENX" : "SUBMIT TRANSMISSION"}
               </span>
               {loading ? (
                 <Loader2 className="w-6 h-6 animate-spin" strokeWidth={2.5} />
@@ -210,8 +240,9 @@ export default function Contact() {
             </button>
 
             <p className="mt-4 font-mono text-[9px] text-[#6B7FA8] tracking-widest leading-relaxed">
-              Your data is processed under India&apos;s DPDP Act 2023. We use it solely to respond to
-              your enquiry. See our Privacy Policy.
+              {isGlobal
+                ? "Your data is processed in line with the GDPR and India's DPDP Act 2023. We use it solely to respond to your enquiry. See our Privacy Policy."
+                : <>Your data is processed under India&apos;s DPDP Act 2023. We use it solely to respond to your enquiry. See our Privacy Policy.</>}
             </p>
           </form>
         </div>

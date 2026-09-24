@@ -11,10 +11,10 @@ export default function Partners() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_001</span> OUR_PARTNERS
           </div>
-          <h3 className="font-display text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
+          <h2 className="font-display text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
             TRUSTED BY<br/>
             <span className="text-[#00A3FF]">SCALED BRANDS.</span>
-          </h3>
+          </h2>
         </div>
         <div className="hidden md:block font-mono text-[10px] text-[#6B7FA8] tracking-widest text-right">
           <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_002</span>

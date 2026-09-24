@@ -16,9 +16,9 @@ export default function BigWordmark() {
       </div>
 
       <div className="relative flex items-center justify-center">
-        <h2 className="font-display text-[22vw] leading-[0.85] tracking-tighter text-[#E6EDFF] uppercase select-none">
+        <div aria-hidden="true" className="font-display text-[22vw] leading-[0.85] tracking-tighter text-[#E6EDFF] uppercase select-none">
           SEVEN<span className="text-[#00A3FF]">X</span>
-        </h2>
+        </div>
       </div>
 
       <div className="relative px-6 md:px-10 mt-10 flex items-center justify-between font-mono text-[10px] text-[#6B7FA8] tracking-widest">

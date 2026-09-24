@@ -14,6 +14,7 @@ import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import RegionToggle from "../components/RegionToggle";
 import { ContentProvider } from "../context/ContentContext";
+import { useSeo } from "../lib/seo";
 
 export default function Home() {
   const [loaded, setLoaded] = useState(false);
@@ -23,11 +24,12 @@ export default function Home() {
     return () => clearTimeout(t);
   }, []);
 
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-      document.title = "SevenX Media | Performance Marketing Agency India — Fintech, Insurance, D2C";
-    }
-  }, []);
+  useSeo({
+    title: "SevenX Media | Performance Marketing Agency India — Fintech, Insurance, D2C",
+    description:
+      "SevenX Media is India's leading performance marketing agency for fintech, insurance, real estate, EdTech, D2C and SEBI-registered advisors. RBI, IRDAI, ASCI and DPDP compliant lead generation, GA4 server-side tracking, WhatsApp funnels and vernacular creative across 22+ states.",
+    path: "/",
+  });
 
   return (
     <ContentProvider region="india">

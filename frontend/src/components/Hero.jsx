@@ -1,6 +1,7 @@
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
 import { useContent } from "../context/ContentContext";
 import { ArrowDown } from "lucide-react";
+import { selectIntent } from "../lib/intent";
 
 // WebGL emblem, split into its own chunk so three.js never blocks first paint.
 const HologramScene = lazy(() => import("./HologramScene"));
@@ -237,29 +238,40 @@ export default function Hero() {
       </div>
 
       <div className="relative px-6 md:px-10">
-        <h1 className="font-display text-[13vw] md:text-[10vw] leading-[0.9] tracking-tight text-[#E6EDFF] uppercase">
-          <span className="block">PERFORMANCE</span>
-          <div className="flex items-end gap-4 flex-wrap">
-            <span className="block">MARKETING</span>
-            <span className="block bg-[#0057FF] text-white px-3 md:px-6 leading-[1] pt-2">FOR</span>
-          </div>
-          {region === "global" ? (
+        {region === "global" ? (
+          <h1 className="font-display text-[13vw] md:text-[10vw] leading-[0.9] tracking-tight text-[#E6EDFF] uppercase">
+            <span className="block">PERFORMANCE</span>{" "}
+            <span className="flex items-end gap-4 flex-wrap">
+              <span className="block">MARKETING</span>{" "}
+              <span className="block bg-[#0057FF] text-white px-3 md:px-6 leading-[1] pt-2">&amp;</span>
+            </span>{" "}
+            <span className="block">ACQUISITION</span>{" "}
             <span className="block">
-              LICENSED <span className="gradient-text">MARKETS.</span>
+              ACROSS <span className="gradient-text">MARKETS.</span>
             </span>
-          ) : (
+          </h1>
+        ) : (
+          <h1 className="font-display text-[13vw] md:text-[10vw] leading-[0.9] tracking-tight text-[#E6EDFF] uppercase">
+            <span className="block">PERFORMANCE</span>{" "}
+            <span className="flex items-end gap-4 flex-wrap">
+              <span className="block">MARKETING</span>{" "}
+              <span className="block bg-[#0057FF] text-white px-3 md:px-6 leading-[1] pt-2">FOR</span>
+            </span>{" "}
             <span className="block">
               HIGH-INTENT <span className="gradient-text">INDIA.</span>
             </span>
-          )}
-        </h1>
+          </h1>
+        )}
 
         <p className="mt-6 max-w-3xl font-mono text-[12px] md:text-sm text-[#9BB0D6] leading-relaxed">
           {region === "global" ? (
             <>
-              iGaming &middot; Sportsbook &middot; Casino &middot; Poker &middot; Crypto CEX/DEX &middot; Web3.
-              MGA, UKGC, KGC, Curacao, Ontario iGO, Colombia Coljuegos, Brazil SPA licensed jurisdictions only.
-              <strong className="text-[#00A3FF]"> Never marketed in India or unlicensed markets.</strong>
+              From paid media and lead generation to affiliate management, publisher acquisition and sub-affiliate
+              operations, SevenX gives ambitious companies an acquisition team built around measurable growth.
+              <span className="block mt-3 text-[#6B7FA8]">
+                Specialist iGaming affiliate growth for licensed operators.
+                <strong className="text-[#00A3FF]"> Never marketed in India or unlicensed markets.</strong>
+              </span>
             </>
           ) : (
             <>
@@ -277,15 +289,19 @@ export default function Hero() {
           </div>
           <a
             href="#contact"
+            onClick={() => region === "global" && selectIntent("OTHER", "Talk to SevenX")}
             data-testid="hero-cta-contact"
             className="group inline-flex items-center gap-4 border border-[#0057FF] text-white bg-[#0057FF]/10 px-6 py-4 font-mono text-xs tracking-widest hover:bg-[#0057FF] transition-all duration-300"
           >
-            <span>LET&apos;S BUILD — [ 0{(tick % 9) + 1} / 09 ]</span>
+            <span>{region === "global" ? "TALK TO SEVENX" : "LET\u2019S BUILD"} — [ 0{(tick % 9) + 1} / 09 ]</span>
             <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
           </a>
           <div className="font-mono text-[10px] text-[#6B7FA8] tracking-widest text-right">
-            42 BRANDS · 22 STATES <br />
-            8.4M+ QUALIFIED LEADS
+            {region === "global" ? (
+              <>PAID · AFFILIATE · PUBLISHER <br />ONE ACQUISITION TEAM</>
+            ) : (
+              <>42 BRANDS · 22 STATES <br />8.4M+ QUALIFIED LEADS</>
+            )}
           </div>
         </div>
       </div>

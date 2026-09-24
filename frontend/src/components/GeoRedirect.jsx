@@ -15,7 +15,8 @@ import { useLocation, useNavigate } from "react-router-dom";
  *        - anything else → /global.
  *
  * We never redirect away from a page the visitor deliberately opened by URL
- * (i.e. if they typed /global we honour it), and we never bounce more than once.
+ * (i.e. if they typed /global we honour it), we never bounce more than once,
+ * and we never redirect crawlers.
  */
 
 const GLOBAL_KEYWORDS = [
@@ -34,6 +35,10 @@ function textContainsGlobalKeyword(txt) {
   return GLOBAL_KEYWORDS.some((k) => s.includes(k));
 }
 
+// Search engines and link-preview bots must see the page at the URL they
+// requested; redirecting them would get /global indexed as the homepage.
+const BOT_UA = /bot|crawl|spider|slurp|mediapartners|facebookexternalhit|embedly|quora link preview|whatsapp|telegram|skype|lighthouse|headlesschrome|chrome-lighthouse|bingpreview|duckduck|yandex|baidu|applebot|google-inspectiontool/i;
+
 export default function GeoRedirect() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -42,6 +47,7 @@ export default function GeoRedirect() {
     // Guard: only run once per full page load.
     if (window.__sevenxRegionResolved) return;
     window.__sevenxRegionResolved = true;
+    if (BOT_UA.test(navigator.userAgent || "")) return;
 
     const path = location.pathname;
     const search = new URLSearchParams(location.search);

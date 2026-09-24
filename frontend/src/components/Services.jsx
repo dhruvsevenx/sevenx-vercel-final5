@@ -5,7 +5,7 @@ import { Handshake, TrendingUp, BarChart3, Rocket, Zap, Bot, Globe, ArrowUpRight
 const iconMap = { Handshake, TrendingUp, BarChart3, Rocket, Zap, Bot, Globe };
 
 export default function Services() {
-  const { services } = useContent();
+  const { services, region } = useContent();
   const [hover, setHover] = useState(null);
 
   return (
@@ -15,10 +15,13 @@ export default function Services() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_001</span> WHAT_WE_OFFER
           </div>
-          <h3 className="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
-            WHAT DO <br/>
-            <span className="text-[#00A3FF]">WE OFFER?</span>
-          </h3>
+          <h2 className="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
+            {region === "global" ? (
+              <>IGAMING & <br/><span className="text-[#00A3FF]">CRYPTO STACK.</span></>
+            ) : (
+              <>WHAT DO <br/><span className="text-[#00A3FF]">WE OFFER?</span></>
+            )}
+          </h2>
         </div>
         <div className="font-mono text-[10px] text-[#6B7FA8] tracking-widest max-w-xs">
           <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_002</span>
@@ -43,9 +46,9 @@ export default function Services() {
                 </div>
                 <div className="col-span-8 md:col-span-4 flex items-center gap-3">
                   <Icon className={`w-5 h-5 ${active ? "text-[#00A3FF]" : "text-[#E6EDFF]"} transition-colors`} strokeWidth={1.5} />
-                  <h4 className={`font-display text-2xl md:text-4xl uppercase tracking-tight transition-colors ${active ? "text-[#00A3FF]" : "text-[#E6EDFF]"}`}>
+                  <h3 className={`font-display text-2xl md:text-4xl uppercase tracking-tight transition-colors ${active ? "text-[#00A3FF]" : "text-[#E6EDFF]"}`}>
                     {s.title}
-                  </h4>
+                  </h3>
                   {s.badge && (
                     <span className="font-mono text-[9px] bg-[#00A3FF] text-black px-1.5 py-0.5 font-bold">{s.badge}</span>
                   )}

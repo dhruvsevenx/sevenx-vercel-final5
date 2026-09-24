@@ -13,10 +13,10 @@ export default function ComplianceBanner() {
     >
       <AlertTriangle className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={2.5} />
       <span className="text-center leading-relaxed">
-        SevenX operates iGaming, sportsbook, casino &amp; crypto marketing
-        <strong className="font-bold"> only in licensed jurisdictions</strong>.
+        iGaming &amp; crypto services are provided only for licensed operators
+        <strong className="font-bold"> in markets where they are permitted</strong>.
         <span className="hidden md:inline">
-          &nbsp;These services are <strong className="font-bold">not offered in India</strong> or any market where such activities are restricted.
+          &nbsp;They are <strong className="font-bold">not offered in India</strong>.
         </span>
       </span>
     </div>

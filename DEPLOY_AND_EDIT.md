@@ -130,6 +130,16 @@ All frontend content lives in **`frontend/src/`**:
 | **Contact form → Google Sheets** setup (Apps Script) | `GOOGLE_SHEETS_SETUP.md` (repo root) |
 | **API endpoints** | `backend/server.py` |
 
+### Global pages (`/global` and `/global/<service>`)
+| What you want to change | File |
+|---|---|
+| Global FAQ, service pages (affiliate management, recruitment, sub-affiliate, iGaming), their titles & meta descriptions | `frontend/src/content/globalContent.json` |
+| Global hub sections (capabilities, affiliate team, iGaming, market expansion…) | `frontend/src/components/global/GlobalSections.jsx` |
+| Global stats, case studies, testimonials, partners, verticals, hero tags | `frontend/src/mock/mockGlobal.js` |
+| Confirmed markets for the market map (empty until confirmed) | `MARKETS` in `GlobalSections.jsx` |
+
+`yarn build` runs `scripts/seo-postbuild.js` afterwards, which writes `build/global/**/index.html` with each route's own title, canonical, Open Graph tags and JSON-LD (read from `globalContent.json`). To add a service page, add an entry to `services` in that JSON file and a line to `public/sitemap.xml`.
+
 ### Changing the accent red
 Search-and-replace `#FF0033` across `frontend/src/`.
 

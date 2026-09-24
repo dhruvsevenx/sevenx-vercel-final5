@@ -33,9 +33,9 @@ export default function Stats() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_001</span> NUMBERS_THAT_PRESENT_US
           </div>
-          <h3 className="font-display text-4xl md:text-6xl uppercase text-[#E6EDFF] max-w-2xl leading-[0.95]">
+          <h2 className="font-display text-4xl md:text-6xl uppercase text-[#E6EDFF] max-w-2xl leading-[0.95]">
             THE PROOF <span className="text-[#00A3FF]">IS IN THE PIPELINE.</span>
-          </h3>
+          </h2>
         </div>
         <div className="font-mono text-[10px] text-[#6B7FA8] tracking-widest max-w-xs md:text-right">
           <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_002</span>

@@ -416,14 +416,8 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
 }
 .holo-webgl-canvas { position: absolute; inset: 0; }
 .holo-webgl-canvas canvas { display: block; width: 100% !important; height: 100% !important; }
-/* Feathers the canvas into the page. An overlay rather than a CSS mask:
-   Safari can fail to draw a WebGL canvas under mask-image. */
-.holo-webgl-vignette {
-  position: absolute;
-  inset: -1px;
-  pointer-events: none;
-  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(5, 11, 31, 0) 60%, #050B1F 99%);
-}
+/* The canvas is transparent; no edge treatment needed. */
+.holo-webgl-vignette { display: none; }
 
 /* ==========================================================================
    Utility helpers
