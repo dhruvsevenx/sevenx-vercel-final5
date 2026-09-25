@@ -129,64 +129,11 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ==========================================================================
-   HERO: premium minimal (sentence-case type, soft light, dotted globe)
+   HERO: dotted globe visual (+ CSS orb fallback)
    ========================================================================== */
 
 .hero-sans {
   font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-}
-
-.hero-pm {
-  background: #04060D;
-  isolation: isolate;
-}
-/* Two soft light sources, no hard edges. */
-.hero-pm-bg {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background:
-    radial-gradient(60% 55% at 78% 42%, rgba(46, 104, 255, 0.22), transparent 70%),
-    radial-gradient(45% 40% at 12% 8%, rgba(124, 92, 255, 0.14), transparent 70%),
-    radial-gradient(80% 60% at 50% 110%, rgba(5, 11, 31, 1), transparent 70%);
-}
-/* Hairline grid that fades out from the centre. */
-.hero-pm-grid {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 72px 72px;
-  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
-}
-/* Blends the hero into the rest of the page. */
-.hero-pm-fade {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 160px;
-  z-index: -1;
-  background: linear-gradient(to bottom, transparent, #050B1F);
-  pointer-events: none;
-}
-
-.hero-title {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 40%, #B7C3DC 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.hero-in {
-  animation: hero-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-@keyframes hero-in {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: none; }
 }
 
 .hero-globe canvas { display: block; width: 100% !important; height: 100% !important; }
@@ -213,10 +160,6 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
   inset: -6%;
   border-radius: 50%;
   box-shadow: 0 0 120px 10px rgba(46, 104, 255, 0.25);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-in { animation: none; }
 }
 
 /* ==========================================================================

@@ -1,5 +1,5 @@
-import React, { Suspense, lazy, useState } from "react";
-import { ArrowRight } from "lucide-react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
+import { ArrowDown } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import { selectIntent } from "../lib/intent";
 
@@ -46,97 +46,123 @@ function HeroVisual() {
   );
 }
 
-const COPY = {
-  global: {
-    pill: ["SevenX Global", "Performance & affiliate growth"],
-    title: (
-      <>
-        Performance marketing &amp; acquisition{" "}
-        <span className="text-[#8EA3C7] [-webkit-text-fill-color:#8EA3C7]">across markets.</span>
-      </>
-    ),
-    body:
-      "From paid media and lead generation to affiliate management, publisher acquisition and sub-affiliate operations, SevenX gives ambitious companies an acquisition team built around measurable growth.",
-    note: "Specialist iGaming affiliate growth for licensed operators. Never marketed in India or unlicensed markets.",
-    primary: { label: "Talk to SevenX", href: "#contact" },
-    secondary: { label: "Explore services", href: "#capabilities" },
-    trust: ["Performance marketing", "Media buying", "Lead generation", "Affiliate management"],
-  },
-  india: {
-    pill: ["SevenX Media", "Performance marketing, India"],
-    title: (
-      <>
-        Performance marketing for{" "}
-        <span className="text-[#8EA3C7] [-webkit-text-fill-color:#8EA3C7]">high-intent India.</span>
-      </>
-    ),
-    body:
-      "Fintech, insurance, real estate, EdTech, D2C, healthcare, SEBI-registered advisory and crypto & forex education. RBI, IRDAI, ASCI, SEBI and DPDP-compliant lead generation across 22+ Indian states.",
-    note: null,
-    primary: { label: "Start a project", href: "#contact" },
-    secondary: { label: "See our services", href: "#services" },
-    trust: ["42 brands scaled", "22 states", "8.4M+ qualified leads"],
-  },
-};
-
 export default function Hero() {
-  const { region } = useContent();
-  const c = region === "global" ? COPY.global : COPY.india;
+  const { heroTags, coordinates, region } = useContent();
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const i = setInterval(() => setTick((t) => t + 1), 1500);
+    return () => clearInterval(i);
+  }, []);
 
   return (
-    <section id="top" className="hero-pm relative overflow-hidden" data-testid="hero-section">
-      <div className="hero-pm-bg" aria-hidden="true" />
-      <div className="hero-pm-grid" aria-hidden="true" />
+    <section
+      id="top"
+      className="relative min-h-screen w-full flex flex-col justify-between pt-24 pb-24 overflow-hidden"
+      data-testid="hero-section"
+    >
+      <div className="absolute inset-0 bg-grid opacity-40 pointer-events-none" />
+      <div className="absolute inset-0 radial-blue pointer-events-none" style={{ opacity: 0.6 }} />
 
-      <div className="relative mx-auto max-w-[1440px] px-6 md:px-10 pt-32 md:pt-40 pb-16 md:pb-24 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center min-h-[100svh]">
-        <div className="lg:col-span-7 hero-sans hero-in">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-[13px] text-[#B8C4DC] backdrop-blur">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#4C8DFF] shadow-[0_0_10px_#4C8DFF]" />
-            {c.pill[0]}
-            <span className="hidden sm:inline text-[#7D8AA5]">· {c.pill[1]}</span>
-          </div>
-
-          <h1 className="hero-title mt-7 font-semibold text-[42px] leading-[1.04] sm:text-6xl lg:text-[72px] xl:text-[84px] tracking-[-0.035em] text-balance max-w-[16ch]">
-            {c.title}
-          </h1>
-
-          <p className="mt-7 text-[17px] md:text-xl leading-relaxed text-[#9AA8C3] max-w-2xl">{c.body}</p>
-          {c.note && <p className="mt-3 text-sm text-[#6F7C96] max-w-2xl">{c.note}</p>}
-
-          <div className="mt-10 flex flex-wrap items-center gap-3">
-            <a
-              href={c.primary.href}
-              onClick={() => region === "global" && selectIntent("OTHER", c.primary.label)}
-              data-testid="hero-cta-contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-white text-[#070B16] px-6 py-3.5 text-[15px] font-medium hover:bg-[#E3E9F6] transition-colors"
-            >
-              {c.primary.label}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-            </a>
-            <a
-              href={c.secondary.href}
-              className="inline-flex items-center gap-2 rounded-full border border-white/15 text-white px-6 py-3.5 text-[15px] font-medium hover:bg-white/[0.06] transition-colors"
-            >
-              {c.secondary.label}
-            </a>
-          </div>
-
-          <ul className="mt-12 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[#76839E]">
-            {c.trust.map((t, i) => (
-              <li key={t} className="flex items-center gap-5">
-                {i > 0 && <span className="hidden sm:block w-1 h-1 rounded-full bg-[#3A4661]" aria-hidden="true" />}
-                {t}
-              </li>
-            ))}
-          </ul>
+      <div className="relative z-10 px-6 md:px-10 flex items-start justify-between">
+        <div className="font-mono text-[10px] text-[#00A3FF] leading-relaxed">
+          {coordinates.lat}<br />
+          {coordinates.lng}
         </div>
-
-        <div className="lg:col-span-5 relative h-[340px] sm:h-[440px] lg:h-[640px] lg:-mr-16 xl:-mr-24">
-          <HeroVisual />
+        <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest">
+          <span className="animate-blink">■</span> // {region === "global" ? "SEVENX_GLOBAL_LIVE" : "SEVENX_INDIA_LIVE"}
         </div>
       </div>
 
-      <div className="hero-pm-fade" aria-hidden="true" />
+      <div className="relative z-10 px-6 md:px-10 grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 md:mt-0">
+        {heroTags.map((t, i) => (
+          <div
+            key={t.no}
+            className={`flex items-start gap-2 font-mono text-[11px] leading-[1.5] text-[#4D8CFF] md:max-w-[280px] ${
+              i === 0 ? "md:justify-self-end md:text-right md:flex-row-reverse" : ""
+            } ${i === 2 ? "md:justify-self-end md:text-right md:flex-row-reverse" : ""}`}
+          >
+            <span className="bg-[#00A3FF] text-[#050B1F] font-bold px-1 text-[9px] whitespace-nowrap">
+              {t.no}
+            </span>
+            <span className="uppercase">{t.text}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Dotted globe: between the tags and the headline on small screens,
+          behind the text on the right on large screens. */}
+      <div className="relative h-[320px] sm:h-[400px] my-4 lg:my-0 lg:absolute lg:h-auto lg:top-[8%] lg:bottom-[8%] lg:right-[-4%] lg:w-[48%] pointer-events-none">
+        <HeroVisual />
+      </div>
+
+      <div className="relative z-10 px-6 md:px-10 lg:mt-20">
+        {region === "global" ? (
+          <h1 className="font-display text-[10.5vw] md:text-[10vw] leading-[0.9] tracking-tight text-[#E6EDFF] uppercase">
+            <span className="block">PERFORMANCE</span>{" "}
+            <span className="flex items-end gap-4 flex-wrap">
+              <span className="block">MARKETING</span>{" "}
+              <span className="block bg-[#0057FF] text-white px-3 md:px-6 leading-[1] pt-2">&amp;</span>
+            </span>{" "}
+            <span className="block">ACQUISITION</span>{" "}
+            <span className="block">
+              ACROSS <span className="gradient-text">MARKETS.</span>
+            </span>
+          </h1>
+        ) : (
+          <h1 className="font-display text-[10.5vw] md:text-[10vw] leading-[0.9] tracking-tight text-[#E6EDFF] uppercase">
+            <span className="block">PERFORMANCE</span>{" "}
+            <span className="flex items-end gap-4 flex-wrap">
+              <span className="block">MARKETING</span>{" "}
+              <span className="block bg-[#0057FF] text-white px-3 md:px-6 leading-[1] pt-2">FOR</span>
+            </span>{" "}
+            <span className="block">
+              HIGH-INTENT <span className="gradient-text">INDIA.</span>
+            </span>
+          </h1>
+        )}
+
+        <p className="mt-6 max-w-3xl font-mono text-[12px] md:text-sm text-[#9BB0D6] leading-relaxed">
+          {region === "global" ? (
+            <>
+              From paid media and lead generation to affiliate management, publisher acquisition and sub-affiliate
+              operations, SevenX gives ambitious companies an acquisition team built around measurable growth.
+              <span className="block mt-3 text-[#6B7FA8]">
+                Specialist iGaming affiliate growth for licensed operators.
+                <strong className="text-[#00A3FF]"> Never marketed in India or unlicensed markets.</strong>
+              </span>
+            </>
+          ) : (
+            <>
+              Fintech &middot; Insurance &middot; Real Estate &middot; EdTech &middot; D2C &middot; Healthcare &middot; SEBI-registered advisory &middot;
+              Crypto &amp; Forex education. RBI, IRDAI, ASCI, SEBI and DPDP-compliant lead generation
+              across 22+ Indian states.
+            </>
+          )}
+        </p>
+
+        <div className="mt-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div className="font-mono text-[10px] text-[#6B7FA8] tracking-widest">
+            SEVENX&trade; // MEDIA <br />
+            {coordinates.location}
+          </div>
+          <a
+            href="#contact"
+            onClick={() => region === "global" && selectIntent("OTHER", "Talk to SevenX")}
+            data-testid="hero-cta-contact"
+            className="group inline-flex items-center gap-4 border border-[#0057FF] text-white bg-[#0057FF]/10 px-6 py-4 font-mono text-xs tracking-widest hover:bg-[#0057FF] transition-all duration-300"
+          >
+            <span>{region === "global" ? "TALK TO SEVENX" : "LET\u2019S BUILD"} — [ 0{(tick % 9) + 1} / 09 ]</span>
+            <ArrowDown className="w-4 h-4 group-hover:translate-y-1 transition-transform" />
+          </a>
+          <div className="font-mono text-[10px] text-[#6B7FA8] tracking-widest text-right">
+            {region === "global" ? (
+              <>PAID · AFFILIATE · PUBLISHER <br />ONE ACQUISITION TEAM</>
+            ) : (
+              <>42 BRANDS · 22 STATES <br />8.4M+ QUALIFIED LEADS</>
+            )}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }
