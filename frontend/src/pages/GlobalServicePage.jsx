@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import RegionToggle from "../components/RegionToggle";
-import ComplianceBanner from "../components/ComplianceBanner";
+import ComplianceBanner, { BANNER_HEIGHT } from "../components/ComplianceBanner";
 import { ContentProvider } from "../context/ContentContext";
 import { Section, SectionHeader, Body, IntentCta, StepStrip, FlowDiagram, ItemGrid, Eyebrow } from "../components/global/ui";
 import { FaqSection } from "../components/global/GlobalSections";
@@ -64,7 +64,7 @@ export default function GlobalServicePage({ slug }) {
     <ContentProvider region="global">
       <div className="relative min-h-screen bg-[#050B1F] text-[#E6EDFF] bg-noise overflow-hidden">
         <ComplianceBanner />
-        <Navbar base="/global" />
+        <Navbar base="/global" offset={BANNER_HEIGHT} />
         <RegionToggle current="global" />
         <main className="pt-8">
           <section className="relative px-6 md:px-10 pt-32 md:pt-40 pb-16 md:pb-24 overflow-hidden" data-testid="service-hero">

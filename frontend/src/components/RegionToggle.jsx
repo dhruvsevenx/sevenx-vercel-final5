@@ -11,7 +11,7 @@ export default function RegionToggle({ current }) {
   const location = useLocation();
   const isGlobal = current === "global";
   const target = isGlobal ? "/" : "/global";
-  const targetLabel = isGlobal ? "INDIA SITE" : "GLOBAL / LICENSED MARKETS";
+  const targetLabel = isGlobal ? "SevenX India" : "SevenX Global";
   const Icon = isGlobal ? MapPin : Globe2;
 
   const persist = () => {
@@ -25,10 +25,10 @@ export default function RegionToggle({ current }) {
       to={target + (location.search || "")}
       onClick={persist}
       data-testid="region-toggle"
-      className="fixed top-20 right-4 md:right-6 z-[70] inline-flex items-center gap-2 px-3 py-2 border border-[#00A3FF] bg-[#050B1F]/80 backdrop-blur-md font-mono text-[10px] tracking-widest text-[#00A3FF] hover:bg-[#00A3FF] hover:text-[#050B1F] transition-colors"
+      className="hero-sans fixed bottom-5 right-5 z-[70] inline-flex items-center gap-2 rounded-full px-4 py-2.5 border border-white/10 bg-[#070B16]/85 backdrop-blur-md text-[13px] text-[#C9D3E6] shadow-[0_8px_30px_rgba(0,0,0,0.35)] hover:border-white/25 hover:text-white transition-colors"
     >
       <Icon className="w-3.5 h-3.5" strokeWidth={2} />
-      <span>SWITCH TO {targetLabel} &rarr;</span>
+      <span>{targetLabel} &rarr;</span>
     </Link>
   );
 }

@@ -13,7 +13,7 @@ import Verticals from "../components/Verticals";
 import Contact from "../components/Contact";
 import Footer from "../components/Footer";
 import RegionToggle from "../components/RegionToggle";
-import ComplianceBanner from "../components/ComplianceBanner";
+import ComplianceBanner, { BANNER_HEIGHT } from "../components/ComplianceBanner";
 import { ContentProvider } from "../context/ContentContext";
 import {
   Capabilities,
@@ -52,7 +52,7 @@ export default function GlobalHome() {
       <div className="relative min-h-screen bg-[#050B1F] text-[#E6EDFF] bg-noise overflow-hidden">
         <ComplianceBanner />
         {!loaded && <Preloader />}
-        <Navbar />
+        <Navbar offset={BANNER_HEIGHT} />
         <RegionToggle current="global" />
         <main className={`${loaded ? "opacity-100" : "opacity-0"} transition-opacity duration-700 pt-8`}>
           <Hero />

@@ -129,295 +129,95 @@ code, .mono { font-family: 'JetBrains Mono', monospace; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 /* ==========================================================================
-   HOLOGRAM SEVENX MEDIA — devils.inc-style 3D holographic emblem
-   Pure CSS + SVG, GPU-accelerated
+   HERO: premium minimal (sentence-case type, soft light, dotted globe)
    ========================================================================== */
 
-.holo-stage {
-  --holo-size: 320px;
-  position: relative;
-  width: var(--holo-size);
-  height: var(--holo-size);
-  perspective: 1100px;
-}
-@media (min-width: 768px) {
-  .holo-stage { --holo-size: 460px; }
+.hero-sans {
+  font-family: 'Inter Tight', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
-/* A 3D scene layer. Tilted by useHoloTilt via --rx / --ry on the stage.
-   NOTE: nothing that holds 3D children may use filter, opacity < 1,
-   mix-blend-mode or overflow: hidden — those flatten preserve-3d. */
-.holo-rig {
+.hero-pm {
+  background: #04060D;
+  isolation: isolate;
+}
+/* Two soft light sources, no hard edges. */
+.hero-pm-bg {
   position: absolute;
   inset: 0;
-  transform-style: preserve-3d;
-  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  will-change: transform;
+  z-index: -2;
+  background:
+    radial-gradient(60% 55% at 78% 42%, rgba(46, 104, 255, 0.22), transparent 70%),
+    radial-gradient(45% 40% at 12% 8%, rgba(124, 92, 255, 0.14), transparent 70%),
+    radial-gradient(80% 60% at 50% 110%, rgba(5, 11, 31, 1), transparent 70%);
 }
-.holo-rig > * { position: absolute; }
-
-/* Flat HUD frame, pushed back for parallax */
-.holo-ring {
-  inset: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 163, 255, 0.35);
-  box-shadow: 0 0 30px rgba(0, 163, 255, 0.15);
-}
-.holo-ring.r1 {
-  animation: holo-spin-back 18s linear infinite;
-}
-.holo-ring.r4 {
-  inset: 26%;
-  border-color: rgba(0, 200, 255, 0.7);
-  box-shadow:
-    0 0 40px rgba(0, 163, 255, 0.5),
-    inset 0 0 30px rgba(0, 200, 255, 0.25);
-  transform: translateZ(-40px);
-}
-@keyframes holo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@keyframes holo-spin-back {
-  from { transform: translateZ(-70px) rotate(0deg); }
-  to { transform: translateZ(-70px) rotate(360deg); }
-}
-
-/* Cardinal tick marks */
-.holo-ticks {
-  inset: 0;
-  animation: holo-ticks-spin 40s linear infinite;
-}
-@keyframes holo-ticks-spin {
-  from { transform: translateZ(-70px) rotate(0deg); }
-  to { transform: translateZ(-70px) rotate(-360deg); }
-}
-.holo-ticks span {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 2px;
-  height: 14px;
-  background: linear-gradient(180deg, #00A3FF, transparent);
-  transform-origin: 50% 160px;
-}
-@media (min-width: 768px) {
-  .holo-ticks span { transform-origin: 50% 230px; height: 18px; }
-}
-
-/* Wireframe globe — meridians + latitudes spinning around the Y axis */
-.holo-globe {
-  inset: 14%;
-  transform-style: preserve-3d;
-  animation: holo-globe-spin 24s linear infinite;
-}
-@keyframes holo-globe-spin {
-  from { transform: rotateX(-14deg) rotateY(0deg); }
-  to { transform: rotateX(-14deg) rotateY(360deg); }
-}
-.holo-meridian,
-.holo-latitude {
+/* Hairline grid that fades out from the centre. */
+.hero-pm-grid {
   position: absolute;
   inset: 0;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 163, 255, 0.28);
-  backface-visibility: visible;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 20%, transparent 75%);
 }
-.holo-latitude {
-  border-color: rgba(0, 200, 255, 0.4);
-  transform: rotateX(90deg);
-}
-/* ~40° latitude: radius cos(40°) ≈ 0.77, height sin(40°) ≈ 0.64 of globe radius */
-.holo-latitude.north,
-.holo-latitude.south {
-  inset: 11.5%;
-  border-color: rgba(0, 163, 255, 0.2);
-}
-.holo-latitude.north { transform: translateY(calc(var(--holo-size) * -0.72 * 0.5 * 0.64)) rotateX(90deg); }
-.holo-latitude.south { transform: translateY(calc(var(--holo-size) * 0.72 * 0.5 * 0.64)) rotateX(90deg); }
-
-/* Gyroscope orbits on tilted axes, each carrying a satellite */
-.holo-orbit {
-  inset: 4%;
-  border-radius: 50%;
-  border: 1px dashed rgba(180, 220, 255, 0.4);
-  transform-style: preserve-3d;
-}
-.holo-orbit.o1 { animation: holo-orbit-1 10s linear infinite; }
-.holo-orbit.o2 {
-  inset: 9%;
-  border: 1px solid rgba(0, 87, 255, 0.55);
-  animation: holo-orbit-2 15s linear infinite reverse;
-}
-@keyframes holo-orbit-1 {
-  from { transform: rotateY(62deg) rotateX(18deg) rotateZ(0deg); }
-  to { transform: rotateY(62deg) rotateX(18deg) rotateZ(360deg); }
-}
-@keyframes holo-orbit-2 {
-  from { transform: rotateX(70deg) rotateY(-12deg) rotateZ(0deg); }
-  to { transform: rotateX(70deg) rotateY(-12deg) rotateZ(360deg); }
-}
-.holo-sat {
-  position: absolute;
-  top: -4px;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  margin-left: -4px;
-  border-radius: 50%;
-  background: #BFE6FF;
-  box-shadow: 0 0 10px #00A3FF, 0 0 22px #0057FF;
-}
-
-/* Extruded SEVENX / MEDIA wordmark — stacked back-layers + glowing front face */
-.holo-text3d {
-  inset: 0;
-  transform-style: preserve-3d;
-  animation: holo-float 6s ease-in-out infinite;
-}
-@keyframes holo-float {
-  0%, 100% { transform: translateZ(20px) translateY(0); }
-  50% { transform: translateZ(20px) translateY(-6px); }
-}
-.holo-word {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Archivo Black', sans-serif;
-  font-size: clamp(40px, 6.4vw, 66px);
-  line-height: 0.9;
-  pointer-events: none;
-}
-.holo-word .w1 { letter-spacing: -0.03em; }
-.holo-word .w2 {
-  margin-top: 0.3em;
-  font-size: 0.4em;
-  letter-spacing: 0.62em;
-  text-indent: 0.62em; /* balance the trailing tracking so MEDIA stays centred */
-}
-.holo-extrude {
-  color: #0A3A9E; /* overridden per layer, front-to-back darkening */
-}
-.holo-text {
-  color: #EAF3FF;
-  text-shadow:
-    0 0 8px rgba(0, 163, 255, 0.85),
-    0 0 26px rgba(0, 87, 255, 0.5);
-}
-
-/* Chromatic aberration ghosts */
-.holo-ghost {
-  mix-blend-mode: screen;
-  filter: blur(0.6px);
-}
-.holo-ghost.cyan {
-  color: #00A3FF;
-  opacity: 0.55;
-  animation: holo-aberrate 3.6s ease-in-out infinite;
-}
-.holo-ghost.pink {
-  color: #FF39A8;
-  opacity: 0.35;
-  animation: holo-aberrate 3.6s ease-in-out infinite reverse;
-}
-@keyframes holo-aberrate {
-  0%, 100% { transform: translate(2px, 0); }
-  50% { transform: translate(-2px, 1px); }
-}
-
-/* Holographic sweeping scan line — floats in front of everything */
-.holo-scan {
-  inset: 0;
-  overflow: hidden;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: translateZ(60px);
-}
-.holo-scan::before {
-  content: '';
+/* Blends the hero into the rest of the page. */
+.hero-pm-fade {
   position: absolute;
   left: 0;
   right: 0;
-  height: 30%;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    rgba(0, 200, 255, 0.14) 40%,
-    rgba(0, 163, 255, 0.3) 50%,
-    rgba(0, 200, 255, 0.14) 60%,
-    transparent 100%
-  );
-  animation: holo-scanline 4s linear infinite;
-  mix-blend-mode: screen;
-}
-@keyframes holo-scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(200%); }
+  bottom: 0;
+  height: 160px;
+  z-index: -1;
+  background: linear-gradient(to bottom, transparent, #050B1F);
+  pointer-events: none;
 }
 
-/* Iridescent core — deep inside the globe */
-.holo-core {
-  inset: 30%;
+.hero-title {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 40%, #B7C3DC 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero-in {
+  animation: hero-in 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+.hero-globe canvas { display: block; width: 100% !important; height: 100% !important; }
+
+/* Fallback visual when WebGL is unavailable: a quiet dotted orb. */
+.hero-orb {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(88%, 520px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
   border-radius: 50%;
   background:
-    radial-gradient(circle at 30% 30%, rgba(0, 200, 255, 0.55), transparent 55%),
-    radial-gradient(circle at 70% 70%, rgba(140, 90, 255, 0.35), transparent 60%),
-    conic-gradient(from 0deg, #0057FF, #00A3FF, #7B5CFF, #00A3FF, #0057FF);
-  filter: blur(18px);
-  opacity: 0.65;
-  animation: holo-core-spin 14s linear infinite;
+    radial-gradient(circle at 35% 30%, rgba(143, 179, 255, 0.18), transparent 55%),
+    radial-gradient(rgba(170, 195, 255, 0.55) 1px, transparent 1.4px) 0 0 / 14px 14px;
+  -webkit-mask-image: radial-gradient(circle, #000 58%, transparent 71%);
+  mask-image: radial-gradient(circle, #000 58%, transparent 71%);
+  box-shadow: inset 0 0 80px rgba(46, 104, 255, 0.25);
 }
-@keyframes holo-core-spin {
-  from { transform: translateZ(-20px) rotate(0deg); }
-  to { transform: translateZ(-20px) rotate(360deg); }
-}
-
-/* Outer targeting crosshair */
-.holo-cross {
-  inset: 0;
-  pointer-events: none;
-  transform: translateZ(-70px);
-}
-.holo-cross span {
+.hero-orb::after {
+  content: '';
   position: absolute;
-  background: #00A3FF;
-  box-shadow: 0 0 8px #00A3FF;
+  inset: -6%;
+  border-radius: 50%;
+  box-shadow: 0 0 120px 10px rgba(46, 104, 255, 0.25);
 }
-.holo-cross span.top    { top:-6px;    left:50%; transform:translateX(-50%); width:1px; height:14px; }
-.holo-cross span.bottom { bottom:-6px; left:50%; transform:translateX(-50%); width:1px; height:14px; }
-.holo-cross span.left   { left:-6px;   top:50%;  transform:translateY(-50%); height:1px; width:14px; }
-.holo-cross span.right  { right:-6px;  top:50%;  transform:translateY(-50%); height:1px; width:14px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .holo-stage { --rx: -8deg; --ry: -22deg; }
-  .holo-rig *,
-  .holo-rig *::before,
-  .holo-rig *::after { animation-play-state: paused !important; }
+  .hero-in { animation: none; }
 }
-
-/* WebGL emblem frame. Same box for the CSS fallback so nothing shifts when it swaps. */
-.holo-frame {
-  position: relative;
-  width: min(100%, 980px);
-  height: 380px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-@media (min-width: 768px) {
-  .holo-frame { height: 580px; }
-}
-.holo-webgl {
-  position: absolute;
-  inset: 0;
-}
-.holo-webgl-canvas { position: absolute; inset: 0; }
-.holo-webgl-canvas canvas { display: block; width: 100% !important; height: 100% !important; }
-/* The canvas is transparent; no edge treatment needed. */
-.holo-webgl-vignette { display: none; }
 
 /* ==========================================================================
    Utility helpers

@@ -22,7 +22,7 @@ const globalNav = [
 
 // `base` prefixes section anchors when the navbar sits on a sub-page
 // (e.g. /global/affiliate-management), so links go back to the hub sections.
-export default function Navbar({ base = "" }) {
+export default function Navbar({ base = "", offset = 0 }) {
   const [open, setOpen] = useState(false);
   const { region, coordinates } = useContent();
   const isGlobal = region === "global";
@@ -32,15 +32,10 @@ export default function Navbar({ base = "" }) {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 md:px-10 py-5 flex items-center justify-between mix-blend-difference">
+      <header style={{ top: offset }} className="fixed left-0 right-0 z-50 px-6 md:px-10 py-5 flex items-center justify-between mix-blend-difference">
         <a href={base || "#top"} className="font-display text-lg tracking-widest text-[#00A3FF] hover-glitch" data-testid="navbar-logo">
           SEVENX
         </a>
-        <div className="hidden md:flex items-center gap-6 font-mono text-[10px] text-[#00A3FF] tracking-widest">
-          <span className="animate-blink">&#9632;</span>
-          <span>{isGlobal ? `${coordinates.lat} / ${coordinates.lng}` : <>28&deg;36&apos;N / 77&deg;13&apos;E</>}</span>
-          <span className="opacity-60">// {isGlobal ? "SEVENX_GLOBAL_LIVE" : "SEVENX_INDIA_LIVE"}</span>
-        </div>
         <button
           onClick={() => setOpen(true)}
           data-testid="navbar-menu-btn"
