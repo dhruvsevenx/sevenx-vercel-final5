@@ -1,0 +1,329 @@
+{
+  "site": "https://www.sevenxm.com",
+  "hub": {
+    "path": "/global",
+    "title": "Global Performance Marketing & Affiliate Growth Agency | SevenX Media",
+    "description": "SevenX Media helps brands scale customer acquisition through performance marketing, media buying, lead generation, affiliate management, publisher recruitment and international market expansion.",
+    "ogTitle": "SevenX Global: Performance Marketing & Affiliate Growth",
+    "faq": [
+      {
+        "q": "What does SevenX Media do?",
+        "a": "SevenX Media is a performance marketing and customer acquisition company. Internationally, we plan and run paid acquisition and media buying, build lead-generation funnels, and manage affiliate and publisher channels for brands and affiliate programs. SevenX also runs a separate India-focused business."
+      },
+      {
+        "q": "Does SevenX manage affiliate programs?",
+        "a": "Yes. We can manage an affiliate program end to end or take over defined parts of it, such as recruitment, partner communication, negotiations, activation, tracking and reporting."
+      },
+      {
+        "q": "Can SevenX act as an outsourced affiliate team?",
+        "a": "Yes. Depending on the program's needs, SevenX can operate as an extension of your existing affiliate team or manage defined parts of the affiliate function, so you don't have to hire a full in-house department to grow the channel."
+      },
+      {
+        "q": "Can SevenX recruit affiliates for an existing program?",
+        "a": "Yes. We identify publishers and partners that fit your GEOs and offer, reach out to them, negotiate terms, onboard them onto your tracking and work to activate them. Recruitment is researched and targeted, not mass email."
+      },
+      {
+        "q": "Does SevenX work with iGaming companies?",
+        "a": "Yes. iGaming is one of our specialist verticals. We support licensed casino and sports betting operators and their affiliate programs with affiliate management, recruitment, publisher acquisition and GEO expansion. SevenX is a B2B marketing and affiliate service provider, not a gambling operator, and we do not market iGaming services in India."
+      },
+      {
+        "q": "Can SevenX operate as a sub-affiliate?",
+        "a": "Where the relevant affiliate program or advertiser permits it, yes. In that model SevenX manages downstream publishers and traffic partners, subject to the program's terms, tracking and compliance requirements. Not every program allows sub-affiliate activity, so we confirm this before starting."
+      },
+      {
+        "q": "What is the difference between affiliate management and affiliate marketing?",
+        "a": "Affiliate marketing is the channel: partners promote an offer and are paid on results. Affiliate management is the work of running that channel: recruiting partners, negotiating terms, onboarding, tracking, communication, optimisation and reporting. SevenX does both, and many programs need the management side most."
+      },
+      {
+        "q": "Can SevenX help launch an affiliate program?",
+        "a": "Yes. We can help define the program strategy and commercial structure, build the initial affiliate database, run outreach and onboarding, and set up tracking before scaling."
+      },
+      {
+        "q": "Can SevenX help expand into new GEOs?",
+        "a": "Yes. We combine paid media, affiliate and publisher recruitment, localised creative and tracking to build acquisition in a new market, subject to the laws and platform policies that apply there."
+      },
+      {
+        "q": "How does SevenX track affiliate performance?",
+        "a": "Through the program's tracking platform and, where available, server-to-server postbacks, using click IDs and sub IDs so conversions can be attributed to publisher and campaign level. Reporting covers traffic, conversions and, where relevant, first-time deposits (FTDs)."
+      },
+      {
+        "q": "Can SevenX manage CPA, RevShare and Hybrid affiliate relationships?",
+        "a": "Yes. We negotiate and manage CPA, revenue share, hybrid and fixed-placement arrangements. The right structure depends on GEO, traffic quality, vertical, volume, conversion rates, brand economics and program terms. We don't publish rates."
+      }
+    ]
+  },
+  "services": [
+    {
+      "slug": "affiliate-management",
+      "name": "Affiliate Management",
+      "title": "Affiliate Management Services & Outsourced Affiliate Team | SevenX Media",
+      "description": "Run your affiliate program without building the whole team in-house. SevenX handles recruitment, onboarding, negotiations, activation, tracking and reporting as an extension of your team.",
+      "eyebrow": "AFFILIATE MANAGEMENT",
+      "h1": "Affiliate management services",
+      "intro": [
+        "Many brands have an affiliate program but not enough people to run it well. SevenX provides the operational layer: we recruit and activate partners, manage relationships, negotiate terms, keep tracking clean and report on what's working.",
+        "Depending on the program's needs, SevenX can operate as an extension of your existing affiliate team or manage defined parts of the affiliate function."
+      ],
+      "cta": { "label": "Build Your Affiliate Channel", "intent": "AFFILIATE MANAGEMENT" },
+      "blocks": [
+        {
+          "type": "list",
+          "heading": "What we can run for you",
+          "items": [
+            { "t": "Program strategy", "d": "Goals, target partner mix, GEOs and commercial structure." },
+            { "t": "Affiliate recruitment", "d": "Sourcing and outreach to publishers that fit the program." },
+            { "t": "Onboarding", "d": "Getting new partners set up with tracking, creatives and terms." },
+            { "t": "Partner communication", "d": "Regular contact, offer updates and day-to-day support." },
+            { "t": "Commercial negotiations", "d": "CPA, RevShare, hybrid and placement deals within the limits you set." },
+            { "t": "Activation", "d": "Turning signed partners into partners who send traffic." },
+            { "t": "Inactive partner reactivation", "d": "Re-engaging partners who signed up but went quiet." },
+            { "t": "Performance monitoring & reporting", "d": "Partner-level results, trends and next actions." },
+            { "t": "Compliance coordination", "d": "Making sure partners follow the program's rules and brand guidelines." },
+            { "t": "GEO expansion", "d": "Adding partners in new markets as the program grows." }
+          ]
+        },
+        {
+          "type": "text",
+          "heading": "Two ways to work together",
+          "paragraphs": [
+            "Extension of your team: your affiliate manager keeps ownership and we add capacity, usually recruitment, activation and day-to-day partner communication.",
+            "Managed function: we run defined parts of the program against agreed goals and report to your commercial or marketing lead.",
+            "Either way, you keep ownership of the program, the tracking platform and the partner relationships."
+          ]
+        },
+        {
+          "type": "steps",
+          "heading": "From empty program to active partner channel",
+          "steps": [
+            { "t": "Program strategy", "d": "Who the program is for, which GEOs and which partner types." },
+            { "t": "Offer & commercial structure", "d": "What partners are paid for, and how." },
+            { "t": "Affiliate database build", "d": "A researched list of publishers worth approaching." },
+            { "t": "Outreach", "d": "Personal, relevant contact, not bulk email." },
+            { "t": "Negotiation", "d": "Terms that work for the partner and the program." },
+            { "t": "Onboarding", "d": "Accounts, links, creatives and rules in place." },
+            { "t": "Tracking", "d": "Clicks and conversions recorded and verified." },
+            { "t": "Activation", "d": "First campaigns live and first conversions in." },
+            { "t": "Optimisation", "d": "Better placements, offers and terms from the data." },
+            { "t": "Scale", "d": "More partners, more GEOs, more volume." }
+          ]
+        },
+        {
+          "type": "text",
+          "heading": "Why activation matters",
+          "paragraphs": [
+            "Most programs have far more signed partners than active ones. Recruitment only pays off when partners start sending qualified traffic, so we treat activation (the first campaign, the first conversions, the first optimisation) as part of the job rather than an afterthought."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Do we keep ownership of our affiliate program?",
+          "a": "Yes. The program, the tracking platform, the commercial terms and the partner relationships stay yours. SevenX works inside your program as an extension of your team."
+        },
+        {
+          "q": "Which parts of the affiliate function can SevenX take over?",
+          "a": "Any defined part: strategy, recruitment, onboarding, partner communication, negotiations, activation, reactivation of inactive partners, tracking checks and reporting. Some programs hand us one function; others hand us most of them."
+        },
+        {
+          "q": "How do you report on affiliate performance?",
+          "a": "At partner and campaign level from the program's tracking platform: traffic, conversions, the partners driving them, what changed and what we plan to do next."
+        }
+      ],
+      "related": ["affiliate-recruitment", "sub-affiliate", "igaming-affiliate-management"]
+    },
+    {
+      "slug": "affiliate-recruitment",
+      "name": "Affiliate Recruitment",
+      "title": "Affiliate & Publisher Recruitment Agency | SevenX Media",
+      "description": "Researched affiliate recruitment: SevenX identifies, contacts, negotiates with, onboards and activates publishers and partners that fit your program, GEOs and commercial model.",
+      "eyebrow": "AFFILIATE RECRUITMENT",
+      "h1": "Affiliate & publisher recruitment",
+      "intro": [
+        "Recruitment is more than sending mass emails to a list. SevenX researches which publishers can actually reach your audience in your target markets, contacts them with a relevant offer, negotiates terms and gets them live on your tracking.",
+        "We recruit for new programs and for established programs that need more active partners or a presence in new GEOs."
+      ],
+      "cta": { "label": "Build Your Affiliate Channel", "intent": "AFFILIATE RECRUITMENT" },
+      "blocks": [
+        {
+          "type": "steps",
+          "heading": "How recruitment works",
+          "steps": [
+            { "t": "Market identification", "d": "Define the GEOs, the audience and the partner types that reach them." },
+            { "t": "Publisher research", "d": "Find and qualify publishers by audience, traffic source and fit." },
+            { "t": "Outreach", "d": "Personalised contact that explains the offer and why it fits them." },
+            { "t": "Commercial negotiation", "d": "Agree a structure that works for both sides." },
+            { "t": "Onboarding", "d": "Accounts, tracking links, creatives and program terms." },
+            { "t": "Tracking", "d": "Confirm clicks and conversions are recorded correctly." },
+            { "t": "Activation", "d": "First campaigns and early optimisation." },
+            { "t": "Optimisation", "d": "Improve placements, offers and terms as data comes in." }
+          ]
+        },
+        {
+          "type": "list",
+          "heading": "Partner types we look for",
+          "items": [
+            { "t": "Niche publishers", "d": "Sites and channels built around one topic your audience cares about." },
+            { "t": "Comparison & review sites", "d": "Publishers that help users choose between providers." },
+            { "t": "Content affiliates", "d": "Editorial, guides and news that recommend offers in context." },
+            { "t": "SEO publishers", "d": "Partners that capture high-intent search traffic." },
+            { "t": "Media buyers", "d": "Partners who buy paid traffic and send it to your offer." },
+            { "t": "Community publishers", "d": "Groups, channels and communities with engaged audiences." },
+            { "t": "Local GEO specialists", "d": "Partners with a real audience in one market or language." },
+            { "t": "Sub-affiliate partners", "d": "Partners with their own publisher networks, where the program permits it." }
+          ]
+        },
+        {
+          "type": "text",
+          "heading": "What decides commercial terms",
+          "paragraphs": [
+            "Terms depend on the GEO, traffic quality, vertical, expected volume, conversion rates, brand economics and the program's own rules. We negotiate within the limits you set and don't promise rates before we know those factors."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Do you recruit affiliates for existing programs?",
+          "a": "Yes. Most recruitment work is for programs that already exist but need more active partners, better-quality partners or partners in new GEOs."
+        },
+        {
+          "q": "How do you decide which affiliates to approach?",
+          "a": "We start from the audience and the GEO, then research publishers that genuinely reach that audience and qualify them on traffic source, content quality and fit with the program's rules before any outreach."
+        },
+        {
+          "q": "Is recruitment finished once an affiliate signs up?",
+          "a": "No. A partner only adds value once they send qualified traffic, so onboarding, tracking checks and activation are part of our recruitment process."
+        }
+      ],
+      "related": ["affiliate-management", "sub-affiliate", "igaming-affiliate-management"]
+    },
+    {
+      "slug": "sub-affiliate",
+      "name": "Sub-Affiliate Operations",
+      "title": "Sub-Affiliate Management & Operations | SevenX Media",
+      "description": "How SevenX operates as a sub-affiliate partner where programs permit it: downstream publisher management, sub-ID tracking, traffic-quality monitoring and transparent reporting.",
+      "eyebrow": "SUB-AFFILIATE OPERATIONS",
+      "h1": "Sub-affiliate operations",
+      "intro": [
+        "In a sub-affiliate model, SevenX joins an affiliate program as a partner and then works with its own network of publishers and traffic partners to promote the offer.",
+        "It gives a program access to many publishers through one relationship, but only where the program or advertiser permits it."
+      ],
+      "cta": { "label": "Discuss Affiliate Growth", "intent": "SUB-AFFILIATE" },
+      "blocks": [
+        {
+          "type": "flow",
+          "heading": "How the model works",
+          "nodes": ["Brand", "Affiliate program / network", "SevenX", "Sub-affiliates, publishers & traffic partners", "End user"],
+          "note": "Sub-affiliate activity is carried out only where permitted by the relevant affiliate program or advertiser, and subject to its terms, tracking and compliance requirements."
+        },
+        {
+          "type": "list",
+          "heading": "What SevenX handles",
+          "items": [
+            { "t": "Permission first", "d": "We confirm the program allows sub-affiliates and agree which traffic sources are acceptable before anything goes live." },
+            { "t": "Publisher management", "d": "Recruiting, briefing and paying downstream partners." },
+            { "t": "Sub-ID tracking", "d": "Each downstream publisher gets its own sub ID, so conversions trace back to the source." },
+            { "t": "Traffic-quality monitoring", "d": "Watching conversion patterns and removing sources that don't meet program standards." },
+            { "t": "Compliance", "d": "Passing the program's rules and brand guidelines down to every partner." },
+            { "t": "Reporting", "d": "Transparent reporting to the program, at sub-ID level where required." }
+          ]
+        },
+        {
+          "type": "text",
+          "heading": "Why programs work with sub-affiliates",
+          "paragraphs": [
+            "A sub-affiliate partner gives a program access to many smaller publishers through one contract and one point of accountability. For publishers, it opens up offers they might not qualify for directly."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Does every affiliate program allow sub-affiliates?",
+          "a": "No. Many programs restrict or prohibit sub-affiliate activity. SevenX only operates this way where the program or advertiser permits it, and within its terms."
+        },
+        {
+          "q": "How is sub-affiliate traffic tracked?",
+          "a": "Each downstream publisher is assigned its own sub ID on the program's tracking links, so clicks and conversions can be attributed to the original source and reported to the program."
+        },
+        {
+          "q": "Who is responsible for sub-affiliate traffic quality?",
+          "a": "SevenX is accountable to the program for the downstream partners we bring in. We monitor their traffic, apply the program's rules and remove sources that don't meet them."
+        }
+      ],
+      "related": ["affiliate-management", "affiliate-recruitment", "igaming-affiliate-management"]
+    },
+    {
+      "slug": "igaming-affiliate-management",
+      "name": "iGaming Affiliate Management",
+      "title": "iGaming Affiliate Management & Recruitment | SevenX Media",
+      "description": "Casino and sports betting affiliate management for licensed operators: affiliate recruitment, publisher hunting, CPA, RevShare and hybrid deals, GEO expansion and FTD optimisation.",
+      "eyebrow": "IGAMING AFFILIATE GROWTH",
+      "h1": "iGaming affiliate management",
+      "intro": [
+        "SevenX works with licensed iGaming operators and affiliate programs that need more hands on the ground: affiliate recruitment, publisher outreach, GEO expansion, partner management and performance optimisation.",
+        "SevenX is a B2B marketing and affiliate service provider. We are not a gambling operator."
+      ],
+      "cta": { "label": "Discuss Affiliate Growth", "intent": "IGAMING AFFILIATE GROWTH" },
+      "blocks": [
+        {
+          "type": "list",
+          "heading": "What we support",
+          "items": [
+            { "t": "Casino affiliate management", "d": "Running partner relationships, offers and reporting for casino programs." },
+            { "t": "Sports betting affiliate management", "d": "The same for sportsbook programs, planned around the sporting calendar." },
+            { "t": "Affiliate recruitment & publisher hunting", "d": "Finding, qualifying and signing partners in your target GEOs." },
+            { "t": "Sub-affiliate operations", "d": "Downstream publisher management, where the program permits it." },
+            { "t": "GEO expansion", "d": "Building a partner base in markets where you are licensed to operate." },
+            { "t": "Partner negotiations", "d": "CPA, RevShare and hybrid structures within your limits." },
+            { "t": "Tracking & attribution", "d": "Click IDs, sub IDs and postbacks so FTDs trace back to partners." },
+            { "t": "FTD & conversion optimisation", "d": "Improving the path from click to registration to first deposit." },
+            { "t": "Affiliate activation", "d": "Getting signed partners live and sending traffic." },
+            { "t": "Performance reporting", "d": "Partner-level traffic, registrations, FTDs and trends." }
+          ]
+        },
+        {
+          "type": "flow",
+          "heading": "Where SevenX sits",
+          "nodes": ["iGaming brand", "Affiliate program", "SevenX", "Affiliates & publishers", "Sub-affiliates", "Qualified traffic", "Registrations, conversions & FTDs"],
+          "note": "Where permitted by the advertiser, affiliate program and applicable terms."
+        },
+        {
+          "type": "text",
+          "heading": "Casino and sports betting are different programs",
+          "paragraphs": [
+            "Casino and sports betting programs recruit from overlapping but different publisher pools. Sports betting traffic follows the sporting calendar, with tournaments and league seasons driving spikes, so recruitment and activation are planned around it. Casino traffic is steadier and leans more on comparison and review content. We plan the partner mix and commercial terms for each separately."
+          ]
+        },
+        {
+          "type": "text",
+          "heading": "CPA, RevShare or hybrid",
+          "paragraphs": [
+            "CPA pays a fixed amount per qualifying player, usually a first-time depositor meeting agreed criteria, and suits partners who want predictable income. RevShare pays a share of net gaming revenue over the player's lifetime and ties the partner to player quality. Hybrid combines a lower CPA with a revenue share.",
+            "The right mix depends on GEO, traffic quality, volume, player value and program terms. We don't publish rates."
+          ]
+        },
+        {
+          "type": "text",
+          "heading": "Compliance",
+          "paragraphs": [
+            "We work for operators licensed in the markets they target, and all activity is subject to applicable laws, platform policies, advertiser terms and affiliate-program requirements. We don't provide legal, licensing or regulatory advice, and we don't market iGaming services in India."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Do you work with both casino and sports betting programs?",
+          "a": "Yes. We support casino and sports betting affiliate programs, and plan partner mix, recruitment timing and commercial terms for each separately."
+        },
+        {
+          "q": "Can SevenX help an iGaming brand enter a new GEO?",
+          "a": "Yes, in markets where the operator is licensed to operate. We research the local publisher landscape, recruit and activate partners, and combine that with tracking and reporting from day one."
+        },
+        {
+          "q": "What is an FTD?",
+          "a": "A first-time depositor: a player who registers and makes a first deposit. Many iGaming affiliate deals pay CPA on FTDs that meet agreed qualifying criteria."
+        }
+      ],
+      "related": ["affiliate-management", "affiliate-recruitment", "sub-affiliate"]
+    }
+  ]
+}

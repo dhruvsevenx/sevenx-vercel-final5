@@ -10,10 +10,10 @@ export default function WhyChoose() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_001</span> WHY_SEVENX
           </div>
-          <h3 className="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
+          <h2 className="font-display text-5xl md:text-8xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF]">
             WHY CHOOSE<br/>
             <span className="text-[#00A3FF]">SEVENX?</span>
-          </h3>
+          </h2>
         </div>
         <div className="font-mono text-[10px] text-[#6B7FA8] tracking-widest max-w-xs">
           <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_002</span>
@@ -35,9 +35,9 @@ export default function WhyChoose() {
               {w.id}
             </div>
             <div>
-              <h4 className="font-display text-3xl md:text-4xl uppercase text-[#E6EDFF] group-hover:text-[#00A3FF] transition-colors leading-[0.95] mb-4">
+              <h3 className="font-display text-3xl md:text-4xl uppercase text-[#E6EDFF] group-hover:text-[#00A3FF] transition-colors leading-[0.95] mb-4">
                 {w.title}
-              </h4>
+              </h3>
               <p className="font-mono text-[11px] text-[#9BB0D6] leading-relaxed uppercase">
                 {w.desc}
               </p>

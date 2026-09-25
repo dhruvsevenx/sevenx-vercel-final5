@@ -18,10 +18,10 @@ export default function Testimonials() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-black px-1 font-bold mr-2">NO_001</span> CLIENT_FEEDBACK
           </div>
-          <h3 className="font-display text-3xl md:text-4xl uppercase leading-[0.95] tracking-tight text-[#E6EDFF]">
+          <h2 className="font-display text-3xl md:text-4xl uppercase leading-[0.95] tracking-tight text-[#E6EDFF]">
             WHAT OUR<br/>
             <span className="text-[#00A3FF]">CLIENTS SAY.</span>
-          </h3>
+          </h2>
         </div>
 
         <div className="md:col-span-9">

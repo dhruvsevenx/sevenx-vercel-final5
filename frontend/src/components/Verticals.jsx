@@ -10,11 +10,11 @@ export default function Verticals() {
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">
             <span className="bg-[#00A3FF] text-[#050B1F] px-1 font-bold mr-2">NO_003</span> VERTICALS_WE_COVER
           </div>
-          <h3 className="font-display text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF] mb-6">
+          <h2 className="font-display text-4xl md:text-6xl uppercase leading-[0.9] tracking-tight text-[#E6EDFF] mb-6">
             {region === "global" ? (
               <>
-                EVERY <span className="text-[#00A3FF]">MARKET.</span><br />
-                EVERY <span className="text-[#00A3FF]">LICENSE.</span>
+                HIGH-INTENT <br />
+                <span className="text-[#00A3FF]">VERTICALS.</span>
               </>
             ) : (
               <>
@@ -22,15 +22,15 @@ export default function Verticals() {
                 EVERY <span className="text-[#00A3FF]">VERTICAL.</span>
               </>
             )}
-          </h3>
+          </h2>
           <p className="font-mono text-[12px] text-[#9BB0D6] leading-[1.8] uppercase max-w-md">
             {region === "global"
-              ? "Only inside jurisdictions where operator licenses exist. Every creative cleared against the local advertising code — MGA, UKGC, KGC, Curacao, Ontario iGO, Coljuegos, SPA."
+              ? "Performance and affiliate acquisition for categories where every lead, customer or depositor has real value. iGaming and crypto work runs only for licensed operators, in markets where it is permitted."
               : "Compliant, India-first lead generation across regulated categories. Every campaign audited against ASCI, SEBI, IRDAI, RBI, Ayush, FSSAI and the DPDP Act 2023."}
           </p>
         </div>
 
-        <div className="md:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-2">
+        <div className={`md:col-span-8 grid grid-cols-2 ${region === "global" ? "md:grid-cols-4" : "md:grid-cols-3"} gap-2`}>
           {verticals.map((v, i) => (
             <div
               key={v.name}

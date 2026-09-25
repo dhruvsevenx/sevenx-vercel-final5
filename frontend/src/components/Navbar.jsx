@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useContent } from "../context/ContentContext";
+import { PRIMARY_EMAIL } from "../constants/emails";
 
-const navItems = [
+const indiaNav = [
   { label: "HOME", href: "#top" },
   { label: "SERVICES", href: "#services" },
   { label: "VERTICALS", href: "#verticals" },
@@ -10,20 +12,31 @@ const navItems = [
   { label: "CONTACT", href: "#contact" },
 ];
 
-export default function Navbar() {
+const globalNav = [
+  { label: "HOME", href: "#top" },
+  { label: "WHAT WE DO", href: "#capabilities" },
+  { label: "AFFILIATE", href: "#affiliate" },
+  { label: "IGAMING", href: "#igaming" },
+  { label: "CASE STUDIES", href: "#cases" },
+  { label: "CONTACT", href: "#contact" },
+];
+
+// `base` prefixes section anchors when the navbar sits on a sub-page
+// (e.g. /global/affiliate-management), so links go back to the hub sections.
+export default function Navbar({ base = "", offset = 0 }) {
   const [open, setOpen] = useState(false);
+  const { region, coordinates } = useContent();
+  const isGlobal = region === "global";
+  const navItems = (isGlobal ? globalNav : indiaNav).map((item) =>
+    base && item.href !== "#contact" ? { ...item, href: base + (item.href === "#top" ? "" : item.href) } : item
+  );
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 md:px-10 py-5 flex items-center justify-between mix-blend-difference">
-        <a href="#top" className="font-display text-lg tracking-widest text-[#00A3FF] hover-glitch" data-testid="navbar-logo">
+      <header style={{ top: offset }} className="fixed left-0 right-0 z-50 px-6 md:px-10 py-5 flex items-center justify-between mix-blend-difference">
+        <a href={base || "#top"} className="font-display text-lg tracking-widest text-[#00A3FF] hover-glitch" data-testid="navbar-logo">
           SEVENX
         </a>
-        <div className="hidden md:flex items-center gap-6 font-mono text-[10px] text-[#00A3FF] tracking-widest">
-          <span className="animate-blink">&#9632;</span>
-          <span>28&deg;36&apos;N / 77&deg;13&apos;E</span>
-          <span className="opacity-60">// SEVENX_INDIA_LIVE</span>
-        </div>
         <button
           onClick={() => setOpen(true)}
           data-testid="navbar-menu-btn"
@@ -71,8 +84,8 @@ export default function Navbar() {
           </nav>
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-xs text-[#6B7FA8]">
-            <div>info@sevenxmedia.in</div>
-            <div>NEW DELHI &middot; MUMBAI &middot; BENGALURU</div>
+            <a href={`mailto:${PRIMARY_EMAIL}`} className="hover:text-[#00A3FF]">{PRIMARY_EMAIL}</a>
+            <div>{isGlobal ? coordinates.location : <>NEW DELHI &middot; MUMBAI &middot; BENGALURU</>}</div>
             <div>SEVENX&trade; // 2026</div>
           </div>
         </div>
