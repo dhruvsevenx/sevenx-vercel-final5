@@ -89,12 +89,13 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Dotted globe: centred behind the headline. */}
-      <div className="absolute left-1/2 top-[56%] -translate-x-1/2 -translate-y-1/2 w-[min(118vw,900px)] aspect-square pointer-events-none">
+      {/* Dotted globe: between the tags and the headline on small screens,
+          behind the text on the right on large screens. */}
+      <div className="relative h-[320px] sm:h-[400px] my-4 lg:my-0 lg:absolute lg:h-auto lg:top-[8%] lg:bottom-[8%] lg:right-[-4%] lg:w-[48%] pointer-events-none">
         <HeroVisual />
       </div>
 
-      <div className="relative z-10 px-6 md:px-10 mt-12 lg:mt-20">
+      <div className="relative z-10 px-6 md:px-10 lg:mt-20">
         {region === "global" ? (
           <h1 className="font-display text-[10.5vw] md:text-[10vw] leading-[0.9] tracking-tight text-[#E6EDFF] uppercase">
             <span className="block">PERFORMANCE</span>{" "}
