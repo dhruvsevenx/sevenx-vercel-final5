@@ -3,6 +3,7 @@ import { ArrowUpRight, Check, Loader2 } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 import { useContent } from "../context/ContentContext";
 import { INTENT_EVENT } from "../lib/intent";
+import { EMAILS } from "../constants/emails";
 
 const services = [
   "PERFORMANCE MARKETING",
@@ -153,9 +154,15 @@ export default function Contact() {
           </p>
 
           <div className="mt-10 space-y-3 font-mono text-xs text-[#9BB0D6]">
-            <div className="flex items-center gap-3">
-              <span className="text-[#00A3FF]">■</span> INFO@SEVENXMEDIA.IN
-            </div>
+            {EMAILS.map((e) => (
+              <div key={e.address} className="flex items-start gap-3" data-testid={`contact-email-${e.address.split("@")[0]}`}>
+                <span className="text-[#00A3FF]">■</span>
+                <span>
+                  <a href={`mailto:${e.address}`} className="text-[#E6EDFF] hover:text-[#00A3FF] uppercase">{e.address}</a>
+                  <span className="block text-[10px] tracking-widest text-[#6B7FA8]">{e.label}</span>
+                </span>
+              </div>
+            ))}
             <div className="flex items-center gap-3">
               <span className="text-[#00A3FF]">■</span> {region === "global" ? "MALTA \u00b7 CURA\u00c7AO \u00b7 DUBAI" : "NEW DELHI \u00b7 MUMBAI \u00b7 BENGALURU"}
             </div>

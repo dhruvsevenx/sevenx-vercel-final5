@@ -32,7 +32,12 @@ const organization = {
   name: "SevenX Media",
   url: `${SITE}/`,
   logo: `${SITE}/logo.png`,
-  email: "info@sevenxmedia.in",
+  email: "contact@sevenxm.com",
+  contactPoint: [
+    { "@type": "ContactPoint", email: "contact@sevenxm.com", contactType: "sales" },
+    { "@type": "ContactPoint", email: "partnerships@sevenxm.com", contactType: "partnerships" },
+    { "@type": "ContactPoint", email: "admin@sevenxm.com", contactType: "billing support" },
+  ],
   sameAs: [
     "https://www.linkedin.com/company/sevenxmedia",
     "https://www.instagram.com/sevenxmedia",

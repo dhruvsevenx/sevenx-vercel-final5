@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Send, Instagram, Linkedin, Youtube } from "lucide-react";
 import { useContent } from "../context/ContentContext";
 import content from "../content/globalContent.json";
+import { EMAILS } from "../constants/emails";
 
 const letters = "STABILITY.THAT.SCALES.INTO.GROWTH".split("");
 
@@ -78,7 +79,12 @@ export default function Footer() {
         <div className="md:col-span-3">
           <div className="font-mono text-[10px] text-[#00A3FF] tracking-widest mb-3">CONTACT</div>
           <ul className="space-y-2 font-mono text-xs text-[#9BB0D6]">
-            <li>INFO@SEVENXMEDIA.IN</li>
+            {EMAILS.map((e) => (
+              <li key={e.address}>
+                <a href={`mailto:${e.address}`} className="hover:text-[#00A3FF] uppercase">{e.address}</a>
+                <span className="block text-[10px] tracking-widest text-[#6B7FA8]">{e.label}</span>
+              </li>
+            ))}
             <li>{isGlobal ? coordinates.location : <>NEW DELHI &middot; MUMBAI &middot; BENGALURU</>}</li>
             <li>{isGlobal ? coordinates.lat : <>28&deg;36&apos;48.99&quot;N</>}</li>
             <li>{isGlobal ? coordinates.lng : <>77&deg;13&apos;19.99&quot;E</>}</li>

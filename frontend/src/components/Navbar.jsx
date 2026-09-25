@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useContent } from "../context/ContentContext";
+import { PRIMARY_EMAIL } from "../constants/emails";
 
 const indiaNav = [
   { label: "HOME", href: "#top" },
@@ -83,7 +84,7 @@ export default function Navbar({ base = "", offset = 0 }) {
           </nav>
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono text-xs text-[#6B7FA8]">
-            <div>info@sevenxmedia.in</div>
+            <a href={`mailto:${PRIMARY_EMAIL}`} className="hover:text-[#00A3FF]">{PRIMARY_EMAIL}</a>
             <div>{isGlobal ? coordinates.location : <>NEW DELHI &middot; MUMBAI &middot; BENGALURU</>}</div>
             <div>SEVENX&trade; // 2026</div>
           </div>
