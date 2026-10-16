@@ -286,3 +286,11 @@ To deploy without any build step on Cloudflare, `cf-site/` holds the production 
 ```
 cd frontend && yarn build && rm -rf ../cf-site && cp -R build ../cf-site && find ../cf-site -name "*.map" -delete
 ```
+
+### Clean URLs on Cloudflare Pages
+
+Pages serves `global/index.html` at `/global/` and redirects `/global` to it, but the canonical tags and sitemap use `/global` (no slash). So in `cf-site/` the pre-rendered pages are stored as flat files (`global.html`, `global/<service>.html`), which Pages serves at `/global` and `/global/<service>` with no redirect. After refreshing `cf-site/` from a new build, flatten again:
+
+```
+cd cf-site && mv global/index.html global.html && for d in global/*/; do d=${d%/}; mv $d/index.html $d.html && rmdir $d; done
+```
