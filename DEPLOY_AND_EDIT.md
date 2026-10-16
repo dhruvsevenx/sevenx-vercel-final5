@@ -264,14 +264,15 @@ If you're comparing this to the previous `vercel.json` I set up before:
 
 The site is a static React build; the FastAPI backend is not used by the frontend (the contact form posts straight to Google Apps Script) and is not deployed.
 
-Cloudflare Pages project settings:
+Cloudflare settings (Workers Builds with static assets, config in `frontend/wrangler.jsonc`; the same values work for a Pages project, which does not need the deploy command):
 
 | Setting | Value |
 |---|---|
 | Production branch | `main` (or `cloudflare-pages` until merged) |
 | Root directory | `frontend` |
 | Build command | `yarn build` |
-| Build output directory | `build` |
+| Build output directory | `build` (set in `wrangler.jsonc`) |
+| Deploy command (Workers) | `npx wrangler deploy` |
 | Environment variable (optional) | `REACT_APP_SHEETS_ENDPOINT` (falls back to the URL in `Contact.jsx`) |
 
 `frontend/.node-version` pins Node 20, `frontend/yarn.lock` pins dependency versions, and `frontend/public/_headers` sets security and cache headers. Any path that is not a real file serves `index.html` (Pages' single-page-app behaviour); the `/global/*` pages are pre-rendered by `scripts/seo-postbuild.js`.
