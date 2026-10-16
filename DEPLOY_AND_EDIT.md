@@ -1,3 +1,5 @@
+> **Update (2026-10-17):** this project no longer runs on Vercel. It is hosted on Cloudflare Pages (see "Hosting on Cloudflare Pages" near the end); `vercel.json` and `.vercelignore` were removed. The Vercel-specific sections below are kept for history only, and the FastAPI backend is not deployed.
+
 # SevenX Media — Deploy on Vercel & Edit Guide
 
 This repo uses **Vercel Services** (Vercel's monorepo multi-service feature) to deploy the React frontend and the FastAPI backend together in a single Vercel project.
