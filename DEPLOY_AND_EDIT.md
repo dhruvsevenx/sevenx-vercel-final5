@@ -278,3 +278,11 @@ Cloudflare settings (Workers Builds with static assets, config in `frontend/wran
 `frontend/.node-version` pins Node 20, `frontend/yarn.lock` pins dependency versions, and `frontend/public/_headers` sets security and cache headers. Any path that is not a real file serves `index.html` (Pages' single-page-app behaviour); the `/global/*` pages are pre-rendered by `scripts/seo-postbuild.js`.
 
 DNS stays at GoDaddy (the domain's mail is hosted there): `www` is a CNAME to the `*.pages.dev` address, and the bare domain uses GoDaddy forwarding to `https://www.sevenxm.com`.
+
+### Prebuilt output (`cf-site/`)
+
+To deploy without any build step on Cloudflare, `cf-site/` holds the production build of `frontend/` (source maps removed) and both `wrangler.jsonc` files serve it. After changing the source, refresh it with:
+
+```
+cd frontend && yarn build && rm -rf ../cf-site && cp -R build ../cf-site && find ../cf-site -name "*.map" -delete
+```
