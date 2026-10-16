@@ -257,3 +257,23 @@ If you're comparing this to the previous `vercel.json` I set up before:
 - **Old:** single-service + serverless functions in `/api/*.py` — replaced.
 - **New:** Vercel Services with `frontend` + `backend` as two co-deployed services in one project.
 - The old top-level `/api/` folder has been removed; the FastAPI backend now lives entirely in `backend/`.
+
+---
+
+## Hosting on Cloudflare Pages (replaces Vercel)
+
+The site is a static React build; the FastAPI backend is not used by the frontend (the contact form posts straight to Google Apps Script) and is not deployed.
+
+Cloudflare Pages project settings:
+
+| Setting | Value |
+|---|---|
+| Production branch | `main` (or `cloudflare-pages` until merged) |
+| Root directory | `frontend` |
+| Build command | `yarn build` |
+| Build output directory | `build` |
+| Environment variable (optional) | `REACT_APP_SHEETS_ENDPOINT` (falls back to the URL in `Contact.jsx`) |
+
+`frontend/.node-version` pins Node 20, `frontend/yarn.lock` pins dependency versions, and `frontend/public/_headers` sets security and cache headers. Any path that is not a real file serves `index.html` (Pages' single-page-app behaviour); the `/global/*` pages are pre-rendered by `scripts/seo-postbuild.js`.
+
+DNS stays at GoDaddy (the domain's mail is hosted there): `www` is a CNAME to the `*.pages.dev` address, and the bare domain uses GoDaddy forwarding to `https://www.sevenxm.com`.
